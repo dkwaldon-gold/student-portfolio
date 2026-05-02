@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title id="page-title">Student Portfolio</title>
+<style>
+  /* ── Reset & Base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #1D9E75;
+    --green-light: #E1F5EE;
+    --green-dark: #085041;
+    --green-mid: #0F6E56;
+    --purple-light: #EEEDFE;
+    --purple-dark: #3C3489;
+    --amber-light: #FAEEDA;
+    --amber-dark: #633806;
+    --blue-light: #E6F1FB;
+    --blue-dark: #0C447C;
+    --gray-bg: #F4F2ED;
+    --gray-border: #D3D1C7;
+    --gray-text: #5F5E5A;
+    --text: #1a1a18;
+    --white: #ffffff;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--gray-bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  a { color: var(--green); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── Layout ── */
+  .page { max-width: 960px; margin: 0 auto; padding: 24px 16px 60px; }
+  .columns { display: grid; grid-template-columns: 280px 1fr; gap: 20px; align-items: start; }
+  @media (max-width: 680px) { .columns { grid-template-columns: 1fr; } }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--gray-border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gray-text);
+    margin-bottom: 14px;
+  }
+
+  /* ── Profile Card ── */
+  .profile-banner {
+    height: 72px;
+    border-radius: var(--radius) var(--radius) 0 0;
+    margin: -20px -22px 0;
+    background: linear-gradient(120deg, var(--green-mid), var(--green));
+  }
+  .profile-avatar {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    border: 4px solid var(--white);
+    background: var(--green-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; font-weight: 600; color: var(--green-dark);
+    margin-top: -36px;
+    position: relative; z-index: 1;
+  }
+  .profile-name { font-size: 20px; font-weight: 700; margin-top: 10px; }
+  .profile-headline { font-size: 14px; color: var(--gray-text); margin-top: 4px; }
+  .profile-location { font-size: 13px; color: var(--gray-text); margin-top: 6px; }
+  .profile-contact { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--gray-border); }
+  .contact-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--gray-text); margin-bottom: 6px;
+  }
+  .contact-icon { width: 16px; text-align: center; font-size: 14px; }
+
+  /* ── Stats row ── */
+  .stats-row {
+    display: flex; justify-content: space-around;
+    margin-top: 14px; padding-top: 14px;
+    border-top: 1px solid var(--gray-border);
+    text-align: center;
+  }
+  .stat-num { font-size: 20px; font-weight: 700; color: var(--green); }
+  .stat-lbl { font-size: 11px; color: var(--gray-text); margin-top: 2px; }
+
+  /* ── Section entries ── */
+  .entry { display: flex; gap: 14px; margin-bottom: 16px; }
+  .entry:last-child { margin-bottom: 0; }
+  .entry-icon {
+    width: 42px; height: 42px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .entry-content { flex: 1; }
+  .entry-title { font-size: 15px; font-weight: 600; }
+  .entry-org { font-size: 13px; color: var(--gray-text); margin-top: 1px; }
+  .entry-date { font-size: 12px; color: var(--gray-text); margin-top: 2px; }
+  .entry-desc { font-size: 13px; color: #444; margin-top: 6px; line-height: 1.55; }
+  .entry-desc ul { padding-left: 16px; margin-top: 4px; }
+  .entry-desc li { margin-bottom: 3px; }
+  .entry + .entry { padding-top: 16px; border-top: 1px solid #f0ede8; }
+
+  /* ── Skills ── */
+  .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .skill-chip {
+    font-size: 12px; padding: 5px 12px;
+    border-radius: 20px; border: 1px solid var(--gray-border);
+    color: var(--gray-text); background: #fafaf8;
+  }
+  .skill-chip.featured {
+    background: var(--green-light);
+    border-color: #9FE1CB;
+    color: var(--green-dark);
+    font-weight: 500;
+  }
+
+  /* ── Project cards ── */
+  .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 500px) { .project-grid { grid-template-columns: 1fr; } }
+  .project-card {
+    border: 1px solid var(--gray-border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--white);
+  }
+  .project-thumb {
+    height: 110px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+  }
+  .project-body { padding: 12px 14px; }
+  .project-title { font-size: 14px; font-weight: 600; }
+  .project-desc { font-size: 12px; color: var(--gray-text); margin-top: 4px; line-height: 1.5; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+  .project-tag {
+    font-size: 11px; padding: 2px 8px; border-radius: 20px;
+    background: var(--purple-light); color: var(--purple-dark);
+  }
+
+  /* ── GPA bar ── */
+  .gpa-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .gpa-label { font-size: 13px; font-weight: 500; width: 90px; }
+  .gpa-bar { flex: 1; height: 7px; background: var(--gray-bg); border-radius: 4px; overflow: hidden; }
+  .gpa-fill { height: 100%; background: var(--green); border-radius: 4px; }
+  .gpa-val { font-size: 13px; font-weight: 700; color: var(--green); width: 32px; text-align: right; }
+
+  /* ── Course chips ── */
+  .course-chip {
+    display: inline-block; font-size: 12px; padding: 3px 10px;
+    background: var(--purple-light); color: var(--purple-dark);
+    border-radius: 20px; margin: 3px 2px;
+  }
+
+  /* ── College targets ── */
+  .target-row {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 13px; padding: 6px 0;
+    border-bottom: 1px solid #f0ede8;
+  }
+  .target-row:last-child { border-bottom: none; }
+  .target-badge {
+    font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 500;
+  }
+  .reach { background: var(--purple-light); color: var(--purple-dark); }
+  .match { background: var(--green-light); color: var(--green-dark); }
+  .safety { background: var(--blue-light); color: var(--blue-dark); }
+
+  /* ── Completeness bar ── */
+  .completeness-bar { height: 6px; background: var(--gray-bg); border-radius: 3px; overflow: hidden; margin: 8px 0; }
+  .completeness-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width 0.4s; }
+  .todo-item { font-size: 12px; color: var(--green); margin-bottom: 5px; }
+  .todo-item::before { content: "○ "; }
+
+  /* ── About section ── */
+  .about-text { font-size: 14px; color: #444; line-height: 1.7; }
+
+  /* ── Print ── */
+  @media print {
+    body { background: white; font-size: 12px; }
+    .page { padding: 0; }
+    .columns { grid-template-columns: 220px 1fr; gap: 14px; }
+    .card { box-shadow: none; border-color: #ddd; padding: 14px 16px; margin-bottom: 10px; }
+    .no-print { display: none !important; }
+    .profile-banner { height: 50px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .gpa-fill, .completeness-fill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  /* ── Top bar ── */
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .topbar-logo { font-size: 18px; font-weight: 700; }
+  .topbar-logo span { color: var(--green); }
+  .topbar-actions { display: flex; gap: 10px; }
+  .btn {
+    font-size: 13px; padding: 7px 16px; border-radius: 20px; cursor: pointer;
+    border: 1px solid var(--green); color: var(--green);
+    background: transparent; font-family: inherit;
+  }
+  .btn:hover { background: var(--green-light); }
+  .btn.primary { background: var(--green); color: white; }
+  .btn.primary:hover { background: var(--green-mid); }
+
+  /* ── Section divider ── */
+  .section-divider {
+    display: flex; align-items: center;
+    border-top: 1px solid #f0ede8;
+    margin: 14px 0 14px;
+    padding-top: 14px;
+  }
+
+  /* ── Recommendation ── */
+  .rec-card {
+    background: var(--gray-bg);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .rec-card:last-child { margin-bottom: 0; }
+  .rec-author { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .rec-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--purple-light); display: flex; align-items: center;
+    justify-content: center; font-size: 12px; font-weight: 600; color: var(--purple-dark);
+  }
+  .rec-name { font-size: 13px; font-weight: 600; }
+  .rec-role { font-size: 12px; color: var(--gray-text); }
+  .rec-text { font-size: 13px; color: #444; line-height: 1.55; font-style: italic; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ════════════════════════════════════════
+       EDIT YOUR DATA HERE — everything below
+       drives the entire page automatically.
+       ════════════════════════════════════════ -->
+  <script>
+  // ─────────────────────────────────────────────────────
+  // BUILT-IN THEMES  (set appearance.theme to one of these)
+  //   emerald | navy | purple | gold | rose | slate | custom
+  // ─────────────────────────────────────────────────────
+  const THEMES = {
+    emerald: { accent:'#1D9E75', light:'#E1F5EE', dark:'#085041', mid:'#0F6E56' },
+    navy:    { accent:'#1B5FA8', light:'#E6F1FB', dark:'#0C2D5C', mid:'#154E8A' },
+    purple:  { accent:'#6B46C1', light:'#EEEDFE', dark:'#2D1A6E', mid:'#553698' },
+    gold:    { accent:'#B7791F', light:'#FAEEDA', dark:'#633806', mid:'#8A5C16' },
+    rose:    { accent:'#BE185D', light:'#FBEAF0', dark:'#7C0D3D', mid:'#9B124E' },
+    slate:   { accent:'#475569', light:'#F1F5F9', dark:'#1E293B', mid:'#334155' },
+  };
+
+  const STUDENT = {
+    name: "Jordan M.",
+    initials: "JM",
+    headline: "Student · Design, Strategy & Theater",
+    school: "Westlake High School",
+    classYear: "Class of 2027",
+    location: "DMV Area",
+    email: "",             // left blank intentionally — minor privacy
+    linkedin: "",
+    website: "",
+
+    // ── APPEARANCE ─────────────────────────────────────────
+    // Change how the profile looks — no CSS knowledge needed.
+    appearance: {
+
+      // THEME: pick one → emerald | navy | purple | gold | rose | slate | custom
+      theme: "purple",
+
+      // CUSTOM COLORS: only used when theme is "custom"
+      custom: {
+        accent: "#1D9E75",
+        light:  "#E1F5EE",
+        dark:   "#085041",
+        mid:    "#0F6E56",
+      },
+
+      // FONT: default | serif | rounded
+      font: "default",
+
+      // PROFILE PHOTO: paste a URL to an image — leave empty for initials
+      profilePhoto: "",
+
+      // BANNER: type → "gradient" | "solid" | "image"
+      banner: {
+        type: "gradient",
+        imageUrl: "",
+      },
+
+      // PAGE BACKGROUND: "light" | "white" | "dark"
+      pageBackground: "light",
+    },
+    // ────────────────────────────────────────────────────────
+
+    about: `I'm a junior with a focus on design, creative production, and business strategy. I've led costume design for school theater productions and contribute to real client work through a consulting practice — building presentations, brand materials, and research deliverables. I'm detail-oriented, a fast learner, and I take ownership of everything I touch.`,
+
+    gpa: {
+      unweighted: 3.8,
+      weighted: 4.3,
+      scale: 4.0
+    },
+
+    courses: [
+      "AP English Language",
+      "AP US History",
+      "Honors Precalculus",
+      "Graphic Design",
+      "Business Foundations",
+      "Spanish III",
+      "Theater Arts"
+    ],
+
+    experience: [
+      {
+        title: "Junior Design & Strategy Consultant",
+        org: "Consulting Practice",
+        dates: "2023 – Present",
+        icon: "💼",
+        iconBg: "#FAEEDA",
+        bullets: [
+          "Designed brand assets, presentations, and marketing materials for client projects",
+          "Contributed to strategy sessions and business research for consulting engagements",
+          "Developed skills in client communication, project scoping, and professional design tools",
+          "Supported business development materials including pitch decks and proposals"
+        ]
+      },
+      {
+        title: "Costume Director",
+        org: "Westlake High School Theater",
+        dates: "2024",
+        icon: "🎭",
+        iconBg: "#FBEAF0",
+        bullets: [
+          "Led all costume design and sourcing for a full cast theatrical production",
+          "Managed costume budget, inventory, and fittings across the full rehearsal and performance schedule",
+          "Collaborated with director and stage crew to align costume vision with staging and character arcs",
+          "Coordinated quick-change logistics and maintained all wardrobe throughout the production run"
+        ]
+      },
+      {
+        title: "Assistant Costume Director",
+        org: "Westlake High School Theater",
+        dates: "2023",
+        icon: "🎭",
+        iconBg: "#FBEAF0",
+        bullets: [
+          "Assisted lead costume director in design planning, sourcing, and garment alterations",
+          "Supported wardrobe changes backstage during live performances",
+          "Organized and labeled costume inventory for the full cast"
+        ]
+      },
+      {
+        title: "Assistant Costume Director",
+        org: "Westlake High School Theater",
+        dates: "2022",
+        icon: "🎭",
+        iconBg: "#FBEAF0",
+        bullets: [
+          "Contributed to costume sourcing and preparation for school theatrical production",
+          "Gained hands-on experience in wardrobe management, alterations, and production coordination"
+        ]
+      }
+    ],
+
+    projects: [
+      {
+        title: "Brand Identity System",
+        desc: "Developed a full visual identity for a small business client — logo, color palette, typography, and usage guidelines.",
+        icon: "🎨",
+        iconBg: "#FAEEDA",
+        tags: ["Branding", "Canva", "Design"]
+      },
+      {
+        title: "Client Pitch Deck",
+        desc: "Built a 15-slide strategy presentation for a consulting proposal, focused on narrative structure and visual hierarchy.",
+        icon: "📊",
+        iconBg: "#E1F5EE",
+        tags: ["Strategy", "Presentations", "Copywriting"]
+      },
+      {
+        title: "Competitive Market Research",
+        desc: "Conducted sector research and summarized competitive findings for a client in the retail industry.",
+        icon: "🔍",
+        iconBg: "#E6F1FB",
+        tags: ["Research", "Analysis", "Writing"]
+      },
+      {
+        title: "Social Media Content System",
+        desc: "Designed a repeatable template system for a client's Instagram and LinkedIn presence.",
+        icon: "📱",
+        iconBg: "#EEEDFE",
+        tags: ["Social Media", "Design", "Content"]
+      }
+    ],
+
+    skills: {
+      featured: ["Canva", "Design Thinking", "Brand Strategy", "Research & Analysis", "Presentation Design", "Costume Design", "Production Management"],
+      other: ["Google Docs / Slides", "Microsoft Office", "Copywriting", "Project Management", "Spanish", "Critical Thinking", "Communication"]
+    },
+
+    achievements: [
+      {
+        title: "Honor Roll",
+        org: "Your High School",
+        date: "2023, 2024",
+        icon: "🏅",
+        iconBg: "#FAEEDA"
+      }
+      // Add more achievements here
+    ],
+
+    recommendations: [
+      {
+        initials: "DW",
+        name: "Dena Waldon",
+        role: "Principal, Waldon Consulting Group",
+        text: "She brings a level of professionalism and creative thinking to every project that I rarely see in someone her age. Her design instincts are strong, and she knows how to take feedback and improve quickly."
+      }
+    ],
+
+    collegeTargets: [
+      { school: "Georgetown University", type: "reach" },
+      { school: "University of Maryland", type: "match" },
+      { school: "Howard University", type: "match" },
+      { school: "Spelman College", type: "match" },
+      { school: "Morgan State University", type: "safety" }
+    ],
+
+    completeness: {
+      pct: 70,
+      todos: ["Add SAT/ACT scores", "Upload portfolio samples", "Add community involvement"]
+    }
+  };
+  </script>
+  <!-- ════════════════════════════════════════
+       END OF EDITABLE DATA
+       ════════════════════════════════════════ -->
+
+  <!-- Top bar -->
+  <div class="topbar no-print">
+    <div class="topbar-logo">edu<span>profile</span></div>
+    <div class="topbar-actions">
+      <button class="btn" onclick="window.print()">⬇ Save as PDF</button>
+    </div>
+  </div>
+
+  <!-- Two-column layout -->
+  <div class="columns" id="main-columns">
+
+    <!-- ── LEFT COLUMN ── -->
+    <div id="left-col">
+
+      <!-- Profile card -->
+      <div class="card" id="profile-card">
+        <div class="profile-banner"></div>
+        <div class="profile-avatar" id="avatar-initials"></div>
+        <div class="profile-name" id="profile-name"></div>
+        <div class="profile-headline" id="profile-headline"></div>
+        <div class="profile-location" id="profile-location"></div>
+        <div class="profile-contact" id="profile-contact"></div>
+        <div class="stats-row" id="stats-row"></div>
+      </div>
+
+      <!-- College targets -->
+      <div class="card" id="college-card">
+        <div class="card-title">College targets</div>
+        <div id="college-list"></div>
+      </div>
+
+      <!-- Profile completeness -->
+      <div class="card no-print" id="completeness-card">
+        <div class="card-title">Profile strength</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;">
+          <span>Overall</span>
+          <span style="font-weight:700;color:var(--green)" id="pct-label"></span>
+        </div>
+        <div class="completeness-bar"><div class="completeness-fill" id="completeness-fill"></div></div>
+        <div style="font-size:12px;color:var(--gray-text);margin-bottom:8px;">Suggestions to strengthen your profile:</div>
+        <div id="todos"></div>
+      </div>
+
+    </div>
+
+    <!-- ── RIGHT COLUMN ── -->
+    <div id="right-col">
+
+      <!-- About -->
+      <div class="card">
+        <div class="card-title">About</div>
+        <div class="about-text" id="about-text"></div>
+      </div>
+
+      <!-- Education -->
+      <div class="card">
+        <div class="card-title">Education</div>
+        <div class="entry">
+          <div class="entry-icon" style="background:#E6F1FB;font-size:22px;">🎓</div>
+          <div class="entry-content">
+            <div class="entry-title" id="edu-school"></div>
+            <div class="entry-org" id="edu-class"></div>
+            <div id="gpa-rows" style="margin-top:12px;"></div>
+            <div style="margin-top:10px;">
+              <div style="font-size:12px;color:var(--gray-text);margin-bottom:4px;">Relevant coursework</div>
+              <div id="course-chips"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Experience -->
+      <div class="card">
+        <div class="card-title">Experience</div>
+        <div id="experience-list"></div>
+      </div>
+
+      <!-- Projects -->
+      <div class="card">
+        <div class="card-title">Projects & portfolio</div>
+        <div class="project-grid" id="project-grid"></div>
+      </div>
+
+      <!-- Skills -->
+      <div class="card">
+        <div class="card-title">Skills</div>
+        <div class="skills-grid" id="skills-grid"></div>
+      </div>
+
+      <!-- Achievements -->
+      <div class="card" id="achievements-card">
+        <div class="card-title">Achievements & honors</div>
+        <div id="achievements-list"></div>
+      </div>
+
+      <!-- Recommendations -->
+      <div class="card" id="recs-card">
+        <div class="card-title">Recommendations</div>
+        <div id="recs-list"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const s = STUDENT;
+  const a = s.appearance || {};
+
+  // ── Apply theme ──────────────────��──────────────────────
+  const t = a.theme === 'custom' ? a.custom : (THEMES[a.theme] || THEMES.emerald);
+  const styleEl = document.createElement('style');
+  styleEl.textContent = `:root {
+    --green: ${t.accent};
+    --green-light: ${t.light};
+    --green-dark: ${t.dark};
+    --green-mid: ${t.mid};
+  }
+  a { color: ${t.accent}; }
+  .stat-num, .gpa-val, #pct-label { color: ${t.accent} !important; }
+  .skill-chip.featured { background:${t.light}; border-color:${t.accent}88; color:${t.dark}; }
+  .completeness-fill, .gpa-fill { background: ${t.accent}; }
+  .complete-fill { background: ${t.accent}; }
+  .todo-item { color: ${t.accent}; }
+  .badge { background: ${t.light}; color: ${t.dark}; }
+  .profile-banner { background: linear-gradient(120deg, ${t.mid}, ${t.accent}); }
+  .profile-avatar { background: ${t.light}; color: ${t.dark}; }
+  `;
+
+  // Font override
+  if (a.font === 'serif') {
+    styleEl.textContent += `body { font-family: Georgia, "Times New Roman", serif; }`;
+  } else if (a.font === 'rounded') {
+    styleEl.textContent += `body { font-family: "Trebuchet MS", "Segoe UI", Tahoma, sans-serif; }`;
+  }
+
+  // Page background
+  if (a.pageBackground === 'white') {
+    styleEl.textContent += `body { background: #ffffff; }`;
+  } else if (a.pageBackground === 'dark') {
+    styleEl.textContent += `body { background: #1a1a18; } .card { background: #2a2a28; border-color: #3a3a38; } .card-title, .profile-name { color: #f0ede8; } .entry-title { color: #f0ede8; } .about-text, .entry-desc { color: #c0bdb8; } .rec-card { background: #222220; }`;
+  }
+
+  document.head.appendChild(styleEl);
+
+  // ── Banner ──────────────���───────────────────────────────
+  if (a.banner && a.banner.type === 'image' && a.banner.imageUrl) {
+    document.querySelector('.profile-banner').style.cssText =
+      `background: url('${a.banner.imageUrl}') center/cover no-repeat; height:100px;`;
+  } else if (a.banner && a.banner.type === 'solid') {
+    document.querySelector('.profile-banner').style.background = t.accent;
+  }
+  // ───────────────────────────────────���────────────────────
+
+  // Helpers
+  function el(id) { return document.getElementById(id); }
+  function make(tag, props, html) {
+    const e = document.createElement(tag);
+    Object.assign(e, props || {});
+    if (html !== undefined) e.innerHTML = html;
+    return e;
+  }
+
+  // Page title
+  document.getElementById('page-title').textContent = s.name + ' — Portfolio';
+
+  // Profile card — photo or initials
+  const avatarEl = el('avatar-initials');
+  if (a.profilePhoto) {
+    avatarEl.style.cssText += `background-image:url('${a.profilePhoto}');background-size:cover;background-position:center;`;
+    avatarEl.textContent = '';
+  } else {
+    avatarEl.textContent = s.initials;
+  }
+  el('profile-name').textContent = s.name;
+  el('profile-headline').textContent = s.headline;
+  el('profile-location').innerHTML = '📍 ' + s.location + ' · ' + s.school;
+
+  const contactEl = el('profile-contact');
+  const contacts = [
+    { icon: '✉️', val: s.email, href: 'mailto:' + s.email },
+    s.website ? { icon: '🌐', val: s.website, href: s.website } : null,
+    s.linkedin ? { icon: '🔗', val: 'LinkedIn', href: s.linkedin } : null
+  ].filter(Boolean);
+  contacts.forEach(c => {
+    const d = make('div', { className: 'contact-item' });
+    d.innerHTML = '<span class="contact-icon">' + c.icon + '</span>';
+    if (c.href) {
+      d.innerHTML += '<a href="' + c.href + '" style="color:var(--green);font-size:13px;">' + c.val + '</a>';
+    } else {
+      d.innerHTML += '<span style="font-size:13px;">' + c.val + '</span>';
+    }
+    contactEl.appendChild(d);
+  });
+
+  // Stats
+  el('stats-row').innerHTML = `
+    <div class="stat-item">
+      <div class="stat-num">${s.gpa.unweighted}</div>
+      <div class="stat-lbl">GPA</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">${s.experience.length + s.projects.length}</div>
+      <div class="stat-lbl">Projects</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">${s.skills.featured.length + s.skills.other.length}</div>
+      <div class="stat-lbl">Skills</div>
+    </div>`;
+
+  // College targets
+  const colleges = el('college-list');
+  s.collegeTargets.forEach(c => {
+    colleges.innerHTML += `
+      <div class="target-row">
+        <span>${c.school}</span>
+        <span class="target-badge ${c.type}">${c.type.charAt(0).toUpperCase()+c.type.slice(1)}</span>
+      </div>`;
+  });
+
+  // Completeness
+  el('pct-label').textContent = s.completeness.pct + '%';
+  el('completeness-fill').style.width = s.completeness.pct + '%';
+  const todosEl = el('todos');
+  s.completeness.todos.forEach(t => {
+    todosEl.innerHTML += '<div class="todo-item">' + t + '</div>';
+  });
+
+  // About
+  el('about-text').textContent = s.about;
+
+  // Education
+  el('edu-school').textContent = s.school;
+  el('edu-class').textContent = s.classYear;
+
+  const gpaRows = el('gpa-rows');
+  const gpaData = [
+    { label: 'Unweighted', val: s.gpa.unweighted, pct: (s.gpa.unweighted / 4.0) * 100 },
+    { label: 'Weighted', val: s.gpa.weighted, pct: Math.min((s.gpa.weighted / 5.0) * 100, 100) }
+  ];
+  gpaData.forEach(g => {
+    gpaRows.innerHTML += `
+      <div class="gpa-row">
+        <div class="gpa-label">${g.label}</div>
+        <div class="gpa-bar"><div class="gpa-fill" style="width:${Math.round(g.pct)}%"></div></div>
+        <div class="gpa-val">${g.val}</div>
+      </div>`;
+  });
+
+  const chips = el('course-chips');
+  s.courses.forEach(c => {
+    chips.innerHTML += '<span class="course-chip">' + c + '</span>';
+  });
+
+  // Experience
+  const expList = el('experience-list');
+  s.experience.forEach((e, i) => {
+    const d = make('div', { className: 'entry' });
+    const bullets = e.bullets.map(b => '<li>' + b + '</li>').join('');
+    d.innerHTML = `
+      <div class="entry-icon" style="background:${e.iconBg}">${e.icon}</div>
+      <div class="entry-content">
+        <div class="entry-title">${e.title}</div>
+        <div class="entry-org">${e.org}</div>
+        <div class="entry-date">${e.dates}</div>
+        <div class="entry-desc"><ul>${bullets}</ul></div>
+      </div>`;
+    expList.appendChild(d);
+  });
+
+  // Projects
+  const pg = el('project-grid');
+  s.projects.forEach(p => {
+    const tags = p.tags.map(t => '<span class="project-tag">' + t + '</span>').join('');
+    pg.innerHTML += `
+      <div class="project-card">
+        <div class="project-thumb" style="background:${p.iconBg}">${p.icon}</div>
+        <div class="project-body">
+          <div class="project-title">${p.title}</div>
+          <div class="project-desc">${p.desc}</div>
+          <div class="project-tags">${tags}</div>
+        </div>
+      </div>`;
+  });
+
+  // Skills
+  const sg = el('skills-grid');
+  s.skills.featured.forEach(sk => {
+    sg.innerHTML += '<span class="skill-chip featured">' + sk + '</span>';
+  });
+  s.skills.other.forEach(sk => {
+    sg.innerHTML += '<span class="skill-chip">' + sk + '</span>';
+  });
+
+  // Achievements
+  const al = el('achievements-list');
+  if (s.achievements.length === 0) {
+    el('achievements-card').style.display = 'none';
+  } else {
+    s.achievements.forEach(a => {
+      al.innerHTML += `
+        <div class="entry">
+          <div class="entry-icon" style="background:${a.iconBg}">${a.icon}</div>
+          <div class="entry-content">
+            <div class="entry-title">${a.title}</div>
+            <div class="entry-org">${a.org}</div>
+            <div class="entry-date">${a.date}</div>
+          </div>
+        </div>`;
+    });
+  }
+
+  // Recommendations
+  const rl = el('recs-list');
+  if (s.recommendations.length === 0) {
+    el('recs-card').style.display = 'none';
+  } else {
+    s.recommendations.forEach(r => {
+      rl.innerHTML += `
+        <div class="rec-card">
+          <div class="rec-author">
+            <div class="rec-avatar">${r.initials}</div>
+            <div>
+              <div class="rec-name">${r.name}</div>
+              <div class="rec-role">${r.role}</div>
+            </div>
+          </div>
+          <div class="rec-text">"${r.text}"</div>
+        </div>`;
+    });
+  }
+
+})();
+</script>
+</body>
+</html>
