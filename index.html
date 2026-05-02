@@ -943,6 +943,7 @@ window.addEventListener('load', function() {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  try {
   const s = STUDENT;
   const a = s.appearance || {};
   const sec = s.sections || {};
@@ -1103,8 +1104,15 @@ document.addEventListener('DOMContentLoaded', function() {
   showSection('side-college',    sec.collegeTargets);
   showSection('side-strength',   sec.profileStrength);
   showSection('recs-card',       sec.recommendations);
-});
-</script>
+
+  } catch(err) {
+    var dbg = document.createElement('div');
+    dbg.style.cssText = 'position:fixed;top:10px;right:10px;background:red;color:#fff;padding:12px 16px;border-radius:8px;z-index:9999;font:13px monospace;max-width:400px;word-break:break-all;';
+    dbg.textContent = 'Render error: ' + err.message;
+    document.body.appendChild(dbg);
+    console.error('EduProfile render error:', err);
+  }
+});</script>
 
 <script>
 function showTab(id, btn) {
