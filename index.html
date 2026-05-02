@@ -98,13 +98,21 @@
   .profile-name { font-size: 24px; font-weight: 700; }
   .profile-headline { font-size: 15px; color: var(--gray-text); margin-top: 4px; line-height: 1.4; }
   .profile-location { font-size: 13px; color: var(--gray-text); margin-top: 6px; }
-  .profile-contact { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--gray-border); display: flex; flex-wrap: wrap; gap: 16px; }
+  .profile-contact { display: none; }
   .contact-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--gray-text); }
   .contact-icon { font-size: 14px; }
-  .stats-row { display: flex; gap: 32px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--gray-border); }
+  .stats-contact-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--gray-border);
+    flex-wrap: wrap; gap: 12px;
+  }
+  .stats-group { display: flex; gap: 28px; align-items: center; }
   .stat-item { text-align: left; }
-  .stat-num { font-size: 22px; font-weight: 700; color: var(--green); }
-  .stat-lbl { font-size: 12px; color: var(--gray-text); margin-top: 1px; }
+  .stat-num { font-size: 20px; font-weight: 700; color: var(--green); }
+  .stat-lbl { font-size: 11px; color: var(--gray-text); margin-top: 1px; }
+  .stat-divider { width: 1px; height: 32px; background: var(--gray-border); }
+  .contact-end { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--gray-text); }
+  .contact-end a { color: var(--green); font-size: 13px; }
   .profile-contact { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--gray-border); }
   .contact-item {
     display: flex; align-items: center; gap: 8px;
@@ -497,7 +505,10 @@
         <div class="profile-location" id="profile-location"></div>
       </div>
       <div class="profile-contact" id="profile-contact"></div>
-      <div class="stats-row" id="stats-row"></div>
+      <div class="stats-contact-row">
+        <div class="stats-group" id="stats-row"></div>
+        <div class="contact-end" id="contact-end"></div>
+      </div>
     </div>
   </div>
 
@@ -661,37 +672,34 @@
   el('profile-headline').textContent = s.headline;
   el('profile-location').innerHTML = '📍 ' + s.location + ' · ' + s.school;
 
-  const contactEl = el('profile-contact');
-  const contacts = [
-    { icon: '✉️', val: s.email, href: 'mailto:' + s.email },
-    s.website ? { icon: '🌐', val: s.website, href: s.website } : null,
-    s.linkedin ? { icon: '🔗', val: 'LinkedIn', href: s.linkedin } : null
-  ].filter(Boolean);
-  contacts.forEach(c => {
-    const d = make('div', { className: 'contact-item' });
-    d.innerHTML = '<span class="contact-icon">' + c.icon + '</span>';
-    if (c.href) {
-      d.innerHTML += '<a href="' + c.href + '" style="color:var(--green);font-size:13px;">' + c.val + '</a>';
-    } else {
-      d.innerHTML += '<span style="font-size:13px;">' + c.val + '</span>';
-    }
-    contactEl.appendChild(d);
-  });
-
-  // Stats
+  // Stats row
   el('stats-row').innerHTML = `
     <div class="stat-item">
       <div class="stat-num">${s.gpa.unweighted}</div>
       <div class="stat-lbl">GPA</div>
     </div>
+    <div class="stat-divider"></div>
     <div class="stat-item">
       <div class="stat-num">${s.experience.length + s.projects.length}</div>
       <div class="stat-lbl">Projects</div>
     </div>
+    <div class="stat-divider"></div>
     <div class="stat-item">
       <div class="stat-num">${s.skills.featured.length + s.skills.other.length}</div>
       <div class="stat-lbl">Skills</div>
     </div>`;
+
+  // Contact end (email / website / linkedin)
+  const contactEnd = el('contact-end');
+  if (s.email) {
+    contactEnd.innerHTML += '<span style="font-size:15px;">✉️</span><a href="mailto:' + s.email + '">' + s.email + '</a>';
+  }
+  if (s.linkedin) {
+    contactEnd.innerHTML += '<span style="margin-left:12px;font-size:15px;">🔗</span><a href="' + s.linkedin + '">LinkedIn</a>';
+  }
+  if (s.website) {
+    contactEnd.innerHTML += '<span style="margin-left:12px;font-size:15px;">🌐</span><a href="' + s.website + '">' + s.website + '</a>';
+  }
 
   // College targets
   const colleges = el('college-list');
