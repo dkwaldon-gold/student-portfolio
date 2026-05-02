@@ -5,294 +5,161 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title id="page-title">Student Portfolio</title>
 <style>
-  /* ── Reset & Base ── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --green: #1D9E75;
-    --green-light: #E1F5EE;
-    --green-dark: #085041;
-    --green-mid: #0F6E56;
-    --purple-light: #EEEDFE;
-    --purple-dark: #3C3489;
-    --amber-light: #FAEEDA;
-    --amber-dark: #633806;
-    --blue-light: #E6F1FB;
-    --blue-dark: #0C447C;
-    --gray-bg: #F4F2ED;
-    --gray-border: #D3D1C7;
-    --gray-text: #5F5E5A;
-    --text: #1a1a18;
-    --white: #ffffff;
-    --radius: 12px;
-    --radius-sm: 8px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.08);
-  }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    background: var(--gray-bg);
-    color: var(--text);
-    font-size: 15px;
-    line-height: 1.6;
-  }
-  a { color: var(--green); text-decoration: none; }
-  a:hover { text-decoration: underline; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --accent: #6B46C1;
+  --accent-light: #EEEDFE;
+  --accent-dark: #2D1A6E;
+  --accent-mid: #553698;
+  --gray-bg: #F4F2ED;
+  --gray-border: #D3D1C7;
+  --gray-text: #5F5E5A;
+  --text: #1a1a18;
+  --white: #ffffff;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; background: var(--gray-bg); color: var(--text); font-size: 15px; line-height: 1.6; }
+a { color: var(--accent); text-decoration: none; }
 
-  /* ── Layout ── */
-  .page { max-width: 960px; margin: 0 auto; padding: 24px 16px 60px; }
-  .columns { display: grid; grid-template-columns: 260px 1fr; gap: 20px; align-items: start; }
-  @media (max-width: 680px) { .columns { grid-template-columns: 1fr; } }
+/* ── Top Nav ── */
+.topnav { background: var(--white); border-bottom: 1px solid var(--gray-border); padding: 0 24px; display: flex; align-items: center; gap: 20px; height: 52px; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); }
+.nav-logo { font-size: 18px; font-weight: 700; flex-shrink: 0; }
+.nav-logo span { color: var(--accent); }
+.nav-spacer { flex: 1; }
+.nav-links { display: flex; gap: 4px; }
+.nav-link { font-size: 13px; padding: 6px 12px; border-radius: 20px; color: var(--gray-text); cursor: default; white-space: nowrap; }
+.nav-link:hover { background: var(--accent-light); color: var(--accent-dark); }
+.nav-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent-light); color: var(--accent-dark); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-left: 8px; }
+.nav-actions { display: flex; gap: 8px; align-items: center; }
+.btn { font-size: 13px; padding: 6px 14px; border-radius: 20px; cursor: pointer; border: 1px solid var(--accent); color: var(--accent); background: transparent; font-family: inherit; }
+.btn:hover { background: var(--accent-light); }
+.btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
+.btn.primary:hover { background: var(--accent-mid); }
 
-  /* ── Cards ── */
-  .card {
-    background: var(--white);
-    border: 1px solid var(--gray-border);
-    border-radius: var(--radius);
-    padding: 20px 22px;
-    margin-bottom: 16px;
-    box-shadow: var(--shadow);
-  }
-  .card-title {
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--gray-text);
-    margin-bottom: 14px;
-  }
+/* ── App layout ── */
+.app { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; display: grid; grid-template-columns: 280px 1fr; gap: 20px; align-items: start; }
+@media (max-width: 720px) { .app { grid-template-columns: 1fr; } }
 
-  /* ── Profile Header — full-width LinkedIn style ── */
-  .profile-header-card {
-    background: var(--white);
-    border: 1px solid var(--gray-border);
-    border-radius: var(--radius);
-    margin-bottom: 16px;
-    box-shadow: var(--shadow);
-    overflow: hidden;
-  }
-  .profile-banner {
-    height: 200px;
-    width: 100%;
-    background: linear-gradient(120deg, var(--green-mid), var(--green));
-    position: relative;
-  }
-  /* Profile header — single horizontal row */
-  .profile-header-body {
-    display: flex;
-    align-items: flex-start;
-    gap: 18px;
-    padding: 0 24px 20px;
-    position: relative;
-  }
-  .profile-avatar-wrap {
-    margin-top: -52px;
-    flex-shrink: 0;
-    z-index: 2;
-    position: relative;
-  }
-  .profile-avatar {
-    width: 104px; height: 104px;
-    border-radius: 50%;
-    border: 4px solid var(--white);
-    background: var(--green-light);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 36px; font-weight: 600; color: var(--green-dark);
-    overflow: hidden;
-  }
-  /* Right side: name col + stats col + contact col, all in one flex row */
-  .profile-right-group {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    gap: 20px;
-    padding-top: 14px;
-    min-width: 0;
-    flex-wrap: wrap;
-  }
-  .profile-info { flex: 1; min-width: 160px; }
-  .profile-name { font-size: 22px; font-weight: 700; }
-  .profile-headline { font-size: 14px; color: var(--gray-text); margin-top: 3px; line-height: 1.4; }
-  .profile-location { font-size: 12px; color: var(--gray-text); margin-top: 5px; }
-  .profile-vert-divider { width: 1px; height: 44px; background: var(--gray-border); flex-shrink: 0; }
-  .stats-group { display: flex; gap: 22px; align-items: center; flex-shrink: 0; }
-  .stat-item { text-align: center; }
-  .stat-num { font-size: 20px; font-weight: 700; color: var(--green); }
-  .stat-lbl { font-size: 11px; color: var(--gray-text); margin-top: 1px; }
-  .stat-divider { width: 1px; height: 32px; background: var(--gray-border); }
-  .contact-end { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--gray-text); flex-shrink: 0; }
-  .contact-end a { color: var(--green); font-size: 13px; }
-  .profile-contact { display: none; }
-  .contact-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--gray-text); margin-bottom: 6px; }
-  .contact-icon { width: 16px; text-align: center; font-size: 14px; }
+/* ── Sidebar student card ── */
+.student-card { background: var(--white); border: 1px solid var(--gray-border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); margin-bottom: 16px; }
+.sc-banner { height: 80px; background: linear-gradient(120deg, var(--accent-mid), var(--accent)); }
+.sc-body { padding: 0 16px 16px; }
+.sc-avatar-wrap { margin-top: -36px; display: inline-block; }
+.sc-avatar { width: 72px; height: 72px; border-radius: 50%; border: 3px solid var(--white); background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; color: var(--accent-dark); overflow: hidden; }
+.sc-name { font-size: 17px; font-weight: 700; margin-top: 8px; }
+.sc-school { font-size: 12px; color: var(--gray-text); margin-top: 2px; }
+.sc-badge { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 20px; background: var(--accent-light); color: var(--accent-dark); margin-top: 8px; font-weight: 500; }
+.sc-stats { display: flex; gap: 0; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--gray-border); }
+.sc-stat { flex: 1; text-align: center; }
+.sc-stat + .sc-stat { border-left: 1px solid var(--gray-border); }
+.sc-num { font-size: 18px; font-weight: 700; color: var(--accent); }
+.sc-lbl { font-size: 10px; color: var(--gray-text); margin-top: 1px; }
 
-  /* Stats row — see .stats-group in profile header section */
+/* ── Sidebar cards ── */
+.side-card { background: var(--white); border: 1px solid var(--gray-border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px; box-shadow: var(--shadow); }
+.side-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-text); margin-bottom: 10px; }
 
-  /* ── Section entries ── */
-  .entry { display: flex; gap: 14px; margin-bottom: 16px; }
-  .entry:last-child { margin-bottom: 0; }
-  .entry-icon {
-    width: 42px; height: 42px; border-radius: var(--radius-sm);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px; flex-shrink: 0;
-  }
-  .entry-content { flex: 1; }
-  .entry-title { font-size: 15px; font-weight: 600; }
-  .entry-org { font-size: 13px; color: var(--gray-text); margin-top: 1px; }
-  .entry-date { font-size: 12px; color: var(--gray-text); margin-top: 2px; }
-  .entry-desc { font-size: 13px; color: #444; margin-top: 6px; line-height: 1.55; }
-  .entry-desc ul { padding-left: 16px; margin-top: 4px; }
-  .entry-desc li { margin-bottom: 3px; }
-  .entry + .entry { padding-top: 16px; border-top: 1px solid #f0ede8; }
+/* ── Skills chips ── */
+.skills-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: 11px; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--gray-border); color: var(--gray-text); background: #fafaf8; }
+.chip.feat { background: var(--accent-light); border-color: #AFA9EC; color: var(--accent-dark); font-weight: 500; }
 
-  /* ── Skills ── */
-  .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-  .skill-chip {
-    font-size: 12px; padding: 5px 12px;
-    border-radius: 20px; border: 1px solid var(--gray-border);
-    color: var(--gray-text); background: #fafaf8;
-  }
-  .skill-chip.featured {
-    background: var(--green-light);
-    border-color: #9FE1CB;
-    color: var(--green-dark);
-    font-weight: 500;
-  }
+/* ── Target rows ── */
+.target-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; padding: 5px 0; border-bottom: 1px solid #f0ede8; }
+.target-row:last-child { border-bottom: none; }
+.target-badge { font-size: 10px; padding: 2px 7px; border-radius: 20px; font-weight: 500; }
+.reach  { background: var(--accent-light); color: var(--accent-dark); }
+.match  { background: #E1F5EE; color: #085041; }
+.safety { background: #E6F1FB; color: #0C2D5C; }
 
-  /* ── Project cards ── */
-  .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  @media (max-width: 500px) { .project-grid { grid-template-columns: 1fr; } }
-  .project-card {
-    border: 1px solid var(--gray-border);
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    background: var(--white);
-  }
-  .project-thumb {
-    height: 110px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 36px;
-  }
-  .project-body { padding: 12px 14px; }
-  .project-title { font-size: 14px; font-weight: 600; }
-  .project-desc { font-size: 12px; color: var(--gray-text); margin-top: 4px; line-height: 1.5; }
-  .project-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
-  .project-tag {
-    font-size: 11px; padding: 2px 8px; border-radius: 20px;
-    background: var(--purple-light); color: var(--purple-dark);
-  }
+/* ── Completeness ── */
+.comp-bar { height: 5px; background: var(--gray-bg); border-radius: 3px; margin: 6px 0 8px; overflow: hidden; }
+.comp-fill { height: 100%; background: var(--accent); border-radius: 3px; }
+.todo-item { font-size: 11px; color: var(--accent); margin-bottom: 4px; }
+.todo-item::before { content: "○ "; }
 
-  /* ── GPA bar ── */
-  .gpa-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .gpa-label { font-size: 13px; font-weight: 500; width: 90px; }
-  .gpa-bar { flex: 1; height: 7px; background: var(--gray-bg); border-radius: 4px; overflow: hidden; }
-  .gpa-fill { height: 100%; background: var(--green); border-radius: 4px; }
-  .gpa-val { font-size: 13px; font-weight: 700; color: var(--green); width: 32px; text-align: right; }
+/* ── Main content ── */
+.main-content { min-width: 0; }
 
-  /* ── Course chips ── */
-  .course-chip {
-    display: inline-block; font-size: 12px; padding: 3px 10px;
-    background: var(--purple-light); color: var(--purple-dark);
-    border-radius: 20px; margin: 3px 2px;
-  }
+/* ── Tab nav ── */
+.tab-nav { display: flex; gap: 0; background: var(--white); border: 1px solid var(--gray-border); border-radius: var(--radius); margin-bottom: 16px; padding: 4px; box-shadow: var(--shadow); }
+.tab-btn { flex: 1; padding: 8px 12px; border-radius: var(--radius-sm); border: none; background: transparent; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--gray-text); font-family: inherit; transition: 0.15s; }
+.tab-btn.active { background: var(--accent); color: white; }
+.tab-btn:hover:not(.active) { background: var(--accent-light); color: var(--accent-dark); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
 
+/* ── Content cards ── */
+.card { background: var(--white); border: 1px solid var(--gray-border); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 14px; box-shadow: var(--shadow); }
+.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.card-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-text); }
+.add-btn-inline { font-size: 12px; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--gray-border); background: var(--white); color: var(--gray-text); cursor: pointer; font-family: inherit; }
+.add-btn-inline:hover { border-color: var(--accent); color: var(--accent); }
 
+/* ── GPA bars ── */
+.gpa-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.gpa-label { font-size: 12px; font-weight: 500; width: 90px; }
+.gpa-bar { flex: 1; height: 6px; background: var(--gray-bg); border-radius: 3px; overflow: hidden; }
+.gpa-fill { height: 100%; background: var(--accent); border-radius: 3px; }
+.gpa-val { font-size: 13px; font-weight: 700; color: var(--accent); width: 30px; text-align: right; }
+.course-chip { display: inline-block; font-size: 11px; padding: 3px 9px; background: var(--accent-light); color: var(--accent-dark); border-radius: 20px; margin: 2px 2px; }
 
-  /* ── College targets ── */
-  .target-row {
-    display: flex; align-items: center; justify-content: space-between;
-    font-size: 13px; padding: 6px 0;
-    border-bottom: 1px solid #f0ede8;
-  }
-  .target-row:last-child { border-bottom: none; }
-  .target-badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
-  .reach  { background: var(--purple-light); color: var(--purple-dark); }
-  .match  { background: var(--green-light);  color: var(--green-dark);  }
-  .safety { background: var(--blue-light);   color: var(--blue-dark);   }
+/* ── Test scores ── */
+.score-row { display: flex; align-items: center; gap: 12px; padding: 6px 0; border-bottom: 1px solid #f0ede8; }
+.score-row:last-child { border-bottom: none; }
+.score-type { font-size: 12px; font-weight: 700; width: 40px; }
+.score-val { font-size: 18px; font-weight: 700; color: var(--accent); }
+.score-date { font-size: 12px; color: var(--gray-text); }
 
-  /* ── Completeness bar ── */
-  .completeness-bar { height: 6px; background: var(--gray-bg); border-radius: 3px; overflow: hidden; margin: 8px 0; }
-  .completeness-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width 0.4s; }
-  .todo-item { font-size: 12px; color: var(--green); margin-bottom: 5px; }
-  .todo-item::before { content: "○ "; }
+/* ── Experience entries ── */
+.entry { display: flex; gap: 12px; padding: 14px 0; border-bottom: 1px solid #f0ede8; }
+.entry:first-child { padding-top: 0; }
+.entry:last-child { border-bottom: none; padding-bottom: 0; }
+.entry-icon { width: 40px; height: 40px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.entry-content { flex: 1; }
+.entry-title { font-size: 14px; font-weight: 600; }
+.entry-meta { font-size: 12px; color: var(--gray-text); margin-top: 2px; }
+.entry-bullets { font-size: 12px; color: #444; margin-top: 6px; padding-left: 14px; line-height: 1.6; }
+.entry-bullets li { margin-bottom: 2px; }
 
-  /* ── About section ── */
-  .about-text { font-size: 14px; color: #444; line-height: 1.7; }
+/* ── Project grid ── */
+.proj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 500px) { .proj-grid { grid-template-columns: 1fr; } }
+.proj-card { border: 1px solid var(--gray-border); border-radius: var(--radius-sm); overflow: hidden; }
+.proj-thumb { height: 90px; display: flex; align-items: center; justify-content: center; font-size: 32px; }
+.proj-body { padding: 10px 12px; }
+.proj-title { font-size: 13px; font-weight: 600; }
+.proj-desc { font-size: 11px; color: var(--gray-text); margin-top: 3px; line-height: 1.5; }
+.proj-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 7px; }
+.proj-tag { font-size: 10px; padding: 2px 7px; border-radius: 20px; background: var(--accent-light); color: var(--accent-dark); }
 
-  /* ── Print ── */
-  @media print {
-    body { background: white; font-size: 12px; }
-    .page { padding: 0; }
-    .columns { grid-template-columns: 220px 1fr; gap: 14px; }
-    .card { box-shadow: none; border-color: #ddd; padding: 14px 16px; margin-bottom: 10px; }
-    .no-print { display: none !important; }
-    .profile-banner { height: 50px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .gpa-fill, .completeness-fill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  }
+/* ── About ── */
+.about-text { font-size: 13px; color: #444; line-height: 1.75; }
 
-  /* ── Top bar ── */
-  .topbar {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  .topbar-logo { font-size: 18px; font-weight: 700; }
-  .topbar-logo span { color: var(--green); }
-  .topbar-actions { display: flex; gap: 10px; }
-  .btn {
-    font-size: 13px; padding: 7px 16px; border-radius: 20px; cursor: pointer;
-    border: 1px solid var(--green); color: var(--green);
-    background: transparent; font-family: inherit;
-  }
-  .btn:hover { background: var(--green-light); }
-  .btn.primary { background: var(--green); color: white; }
-  .btn.primary:hover { background: var(--green-mid); }
+/* ── Rec cards ── */
+.rec-card { background: var(--gray-bg); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 10px; }
+.rec-card:last-child { margin-bottom: 0; }
+.rec-author { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.rec-av { width: 30px; height: 30px; border-radius: 50%; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--accent-dark); }
+.rec-name { font-size: 13px; font-weight: 600; }
+.rec-role { font-size: 11px; color: var(--gray-text); }
+.rec-text { font-size: 12px; color: #444; line-height: 1.6; font-style: italic; }
 
-  /* ── Section divider ── */
-  .section-divider {
-    display: flex; align-items: center;
-    border-top: 1px solid #f0ede8;
-    margin: 14px 0 14px;
-    padding-top: 14px;
-  }
-
-  /* ── Recommendation ── */
-  .rec-card {
-    background: var(--gray-bg);
-    border-radius: var(--radius-sm);
-    padding: 12px 14px;
-    margin-bottom: 10px;
-  }
-  .rec-card:last-child { margin-bottom: 0; }
-  .rec-author { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-  .rec-avatar {
-    width: 32px; height: 32px; border-radius: 50%;
-    background: var(--purple-light); display: flex; align-items: center;
-    justify-content: center; font-size: 12px; font-weight: 600; color: var(--purple-dark);
-  }
-  .rec-name { font-size: 13px; font-weight: 600; }
-  .rec-role { font-size: 12px; color: var(--gray-text); }
-  .rec-text { font-size: 13px; color: #444; line-height: 1.55; font-style: italic; }
+/* ── Print ── */
+@media print {
+  body { background: white; }
+  .topnav, .tab-nav, .add-btn-inline, .no-print { display: none !important; }
+  .app { grid-template-columns: 220px 1fr; gap: 14px; padding: 0; }
+  .tab-panel { display: block !important; }
+  .card, .side-card, .student-card { box-shadow: none; }
+}
 </style>
 </head>
 <body>
-<div class="page">
 
-  <!-- ════════════════════════════════════════
-       EDIT YOUR DATA HERE — everything below
-       drives the entire page automatically.
-       ════════════════════════════════════════ -->
-  <script>
-  // ─────────────────────────────────────────────────────
-  // BUILT-IN THEMES  (set appearance.theme to one of these)
-  //   emerald | navy | purple | gold | rose | slate | custom
-  // ─────────────────────────────────────────────────────
-  const THEMES = {
-    emerald: { accent:'#1D9E75', light:'#E1F5EE', dark:'#085041', mid:'#0F6E56' },
-    navy:    { accent:'#1B5FA8', light:'#E6F1FB', dark:'#0C2D5C', mid:'#154E8A' },
-    purple:  { accent:'#6B46C1', light:'#EEEDFE', dark:'#2D1A6E', mid:'#553698' },
-    gold:    { accent:'#B7791F', light:'#FAEEDA', dark:'#633806', mid:'#8A5C16' },
-    rose:    { accent:'#BE185D', light:'#FBEAF0', dark:'#7C0D3D', mid:'#9B124E' },
-    slate:   { accent:'#475569', light:'#F1F5F9', dark:'#1E293B', mid:'#334155' },
-  };
-
+<script>
   // ── CONFIG (update these if you move repos or change password) ──────────
   const CONFIG = {
     password:  "eduprofile2026",
@@ -517,124 +384,151 @@
     // ────────────────────────────────────────────────────────────────────────
   };
   // __STUDENT_END__
-  </script>
-  <!-- ════════════════════════════════════════
-       END OF EDITABLE DATA
-       ════════════════════════════════════════ -->
+</script>
 
-  <!-- Top bar -->
-  <div class="topbar no-print">
-    <div class="topbar-logo">edu<span>profile</span></div>
-    <div class="topbar-actions">
-      <button class="btn" onclick="window.print()">⬇ Save as PDF</button>
-      <button class="btn primary no-print" id="edit-btn" onclick="openEditMode()" style="display:none;">✏ Edit Profile</button>
+<!-- Top nav -->
+<nav class="topnav no-print">
+  <div class="nav-logo">edu<span>profile</span></div>
+  <div class="nav-spacer"></div>
+  <div class="nav-links">
+    <span class="nav-link">Explore</span>
+    <span class="nav-link">My Network</span>
+    <span class="nav-link">Applications</span>
+  </div>
+  <div class="nav-actions">
+    <button class="btn no-print" onclick="window.print()">Save as PDF</button>
+    <button class="btn primary no-print" id="edit-btn" onclick="openEditMode()" style="display:none;">✏ Edit</button>
+    <div class="nav-avatar" id="nav-avatar"></div>
+  </div>
+</nav>
+
+<div class="app">
+
+  <!-- ── LEFT SIDEBAR ── -->
+  <div id="sidebar">
+
+    <!-- Student card -->
+    <div class="student-card">
+      <div class="sc-banner" id="sc-banner"></div>
+      <div class="sc-body">
+        <div class="sc-avatar-wrap">
+          <div class="sc-avatar" id="sc-avatar"></div>
+        </div>
+        <div class="sc-name" id="sc-name"></div>
+        <div class="sc-school" id="sc-school"></div>
+        <div id="sc-badge-wrap"></div>
+        <div class="sc-stats" id="sc-stats"></div>
+      </div>
     </div>
+
+    <!-- Skills -->
+    <div class="side-card" id="side-skills">
+      <div class="side-title">Skills</div>
+      <div class="skills-wrap" id="skills-grid"></div>
+    </div>
+
+    <!-- Achievements -->
+    <div class="side-card" id="side-achievements">
+      <div class="side-title">Achievements & honors</div>
+      <div id="achievements-list"></div>
+    </div>
+
+    <!-- College targets -->
+    <div class="side-card" id="side-college" style="display:none;">
+      <div class="side-title">College targets</div>
+      <div id="college-list"></div>
+    </div>
+
+    <!-- Profile strength -->
+    <div class="side-card no-print" id="side-strength" style="display:none;">
+      <div class="side-title">Profile strength</div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px;">
+        <span>Overall</span><span style="font-weight:700;color:var(--accent)" id="pct-label"></span>
+      </div>
+      <div class="comp-bar"><div class="comp-fill" id="completeness-fill"></div></div>
+      <div style="font-size:11px;color:var(--gray-text);margin-bottom:6px;">Suggestions:</div>
+      <div id="todos"></div>
+    </div>
+
   </div>
 
-  <!-- Full-width profile header -->
-  <div class="profile-header-card" id="profile-card">
-    <div class="profile-banner" id="profile-banner"></div>
-    <div class="profile-header-body">
-      <div class="profile-avatar-wrap">
-        <div class="profile-avatar" id="avatar-initials"></div>
-      </div>
-      <div class="profile-right-group">
-        <div class="profile-info">
-          <div class="profile-name" id="profile-name"></div>
-          <div class="profile-headline" id="profile-headline"></div>
-          <div class="profile-location" id="profile-location"></div>
-        </div>
-        <div class="profile-vert-divider"></div>
-        <div class="stats-group" id="stats-row"></div>
-        <div class="profile-vert-divider" id="contact-divider" style="display:none;"></div>
-        <div class="contact-end" id="contact-end"></div>
-      </div>
-    </div>
-  </div>
+  <!-- ── MAIN CONTENT ── -->
+  <div class="main-content">
 
-  <!-- Two-column layout -->
-  <div class="columns" id="main-columns">
-
-    <!-- ── LEFT COLUMN ── -->
-    <div id="left-col">
-
-      <!-- College targets (visibility-controlled) -->
-      <div class="card" id="college-card" style="display:none;">
-        <div class="card-title">College targets</div>
-        <div id="college-list"></div>
-      </div>
-
-      <!-- Profile completeness -->
-      <div class="card no-print" id="completeness-card">
-        <div class="card-title">Profile strength</div>
-        <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;">
-          <span>Overall</span>
-          <span style="font-weight:700;color:var(--green)" id="pct-label"></span>
-        </div>
-        <div class="completeness-bar"><div class="completeness-fill" id="completeness-fill"></div></div>
-        <div style="font-size:12px;color:var(--gray-text);margin-bottom:8px;">Suggestions to strengthen your profile:</div>
-        <div id="todos"></div>
-      </div>
-
-      <!-- Skills -->
-      <div class="card" id="skills-card">
-        <div class="card-title">Skills</div>
-        <div class="skills-grid" id="skills-grid"></div>
-      </div>
-
-      <!-- Achievements -->
-      <div class="card" id="achievements-card">
-        <div class="card-title">Achievements & honors</div>
-        <div id="achievements-list"></div>
-      </div>
-
+    <!-- Tab nav -->
+    <div class="tab-nav no-print">
+      <button class="tab-btn active" onclick="showTab('profile',this)">Profile</button>
+      <button class="tab-btn" onclick="showTab('portfolio',this)">Portfolio</button>
+      <button class="tab-btn" onclick="showTab('applications',this)">Applications</button>
+      <button class="tab-btn" onclick="showTab('network',this)">Network</button>
     </div>
 
-    <!-- ── RIGHT COLUMN ── -->
-    <div id="right-col">
+    <!-- Profile tab -->
+    <div class="tab-panel active" id="tab-profile">
 
-      <!-- About -->
       <div class="card" id="about-card">
-        <div class="card-title">About</div>
+        <div class="card-header">
+          <div class="card-title">About</div>
+        </div>
         <div class="about-text" id="about-text"></div>
       </div>
 
-      <!-- Education -->
       <div class="card" id="edu-card">
-        <div class="card-title">Education</div>
-        <div class="entry">
-          <div class="entry-icon" style="background:#E6F1FB;font-size:22px;">🎓</div>
-          <div class="entry-content">
-            <div class="entry-title" id="edu-school"></div>
-            <div class="entry-org" id="edu-class"></div>
-            <div id="gpa-rows" style="margin-top:12px;"></div>
-            <div style="margin-top:10px;">
-              <div style="font-size:12px;color:var(--gray-text);margin-bottom:4px;">Relevant coursework</div>
-              <div id="course-chips"></div>
-            </div>
-          </div>
+        <div class="card-header">
+          <div class="card-title">Academics</div>
+          <button class="add-btn-inline no-print" onclick="openEditMode()">+ add course</button>
+        </div>
+        <div id="gpa-rows"></div>
+        <div id="score-rows" style="margin-top:12px;"></div>
+        <div style="margin-top:10px;">
+          <div style="font-size:11px;color:var(--gray-text);margin-bottom:6px;">Relevant coursework</div>
+          <div id="course-chips"></div>
         </div>
       </div>
 
-      <!-- Experience -->
       <div class="card" id="exp-card">
-        <div class="card-title">Experience</div>
+        <div class="card-header">
+          <div class="card-title">Extracurriculars & experience</div>
+          <button class="add-btn-inline no-print" onclick="openEditMode()">+ add activity</button>
+        </div>
         <div id="experience-list"></div>
       </div>
 
-      <!-- Projects -->
-      <div class="card" id="proj-card">
-        <div class="card-title">Projects & portfolio</div>
-        <div class="project-grid" id="project-grid"></div>
-      </div>
+    </div>
 
-      <!-- Recommendations -->
+    <!-- Portfolio tab -->
+    <div class="tab-panel" id="tab-portfolio">
+      <div class="card" id="proj-card">
+        <div class="card-header">
+          <div class="card-title">Projects & portfolio</div>
+          <button class="add-btn-inline no-print" onclick="openEditMode()">+ add project</button>
+        </div>
+        <div class="proj-grid" id="project-grid"></div>
+      </div>
+    </div>
+
+    <!-- Applications tab -->
+    <div class="tab-panel" id="tab-applications">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">College targets</div>
+          <button class="add-btn-inline no-print" onclick="openEditMode()">+ add target</button>
+        </div>
+        <div id="college-list-main"></div>
+      </div>
+    </div>
+
+    <!-- Network tab -->
+    <div class="tab-panel" id="tab-network">
       <div class="card" id="recs-card">
-        <div class="card-title">Recommendations</div>
+        <div class="card-header">
+          <div class="card-title">Recommendations</div>
+          <button class="add-btn-inline no-print" onclick="openEditMode()">+ request</button>
+        </div>
         <div id="recs-list"></div>
       </div>
-
     </div>
+
   </div>
 </div>
 
@@ -1303,5 +1197,186 @@ window.addEventListener('load', function() {
 
 })();
 </script>
+
+<script>
+(function() {
+  const s = STUDENT;
+  const a = s.appearance || {};
+  const sec = s.sections || {};
+
+  function showSection(id, flag) {
+    const e = document.getElementById(id);
+    if (e) e.style.display = (flag === false) ? 'none' : '';
+  }
+  function el(id) { return document.getElementById(id); }
+
+  // Theme
+  const t = a.theme === 'custom' ? a.custom : (THEMES[a.theme] || THEMES.purple);
+  const st = document.createElement('style');
+  st.textContent = `:root{--accent:${t.accent};--accent-light:${t.light};--accent-dark:${t.dark};--accent-mid:${t.mid};}`;
+  if (a.font === 'serif') st.textContent += `body{font-family:Georgia,serif;}`;
+  document.head.appendChild(st);
+
+  // Banner
+  const banner = el('sc-banner');
+  if (a.banner && a.banner.type === 'image' && a.banner.imageUrl) {
+    banner.style.cssText = `background:url('${a.banner.imageUrl}') center/cover no-repeat;height:80px;`;
+  }
+
+  // Page title
+  el('page-title').textContent = s.name + ' — Portfolio';
+
+  // Avatar
+  const av = el('sc-avatar');
+  if (a.profilePhoto) {
+    av.style.cssText = `background-image:url('${a.profilePhoto}');background-size:cover;background-position:center;`;
+  } else {
+    av.textContent = s.initials;
+  }
+  el('nav-avatar').textContent = s.initials;
+
+  // Name / school
+  el('sc-name').textContent = s.name;
+  el('sc-school').textContent = s.school + ' · ' + s.classYear;
+
+  // Stats
+  el('sc-stats').innerHTML =
+    '<div class="sc-stat"><div class="sc-num">' + s.gpa.unweighted + '</div><div class="sc-lbl">GPA</div></div>' +
+    '<div class="sc-stat"><div class="sc-num">' + s.experience.length + '</div><div class="sc-lbl">Activities</div></div>' +
+    '<div class="sc-stat"><div class="sc-num">' + s.projects.length + '</div><div class="sc-lbl">Projects</div></div>';
+
+  // About
+  if (el('about-text')) el('about-text').textContent = s.about;
+
+  // GPA bars
+  const gpaRows = el('gpa-rows');
+  [
+    { label:'Unweighted', val:s.gpa.unweighted, pct:(s.gpa.unweighted/4.0)*100 },
+    { label:'Weighted',   val:s.gpa.weighted,   pct:Math.min((s.gpa.weighted/5.0)*100,100) }
+  ].forEach(function(g) {
+    gpaRows.innerHTML += '<div class="gpa-row"><div class="gpa-label">' + g.label + '</div>'
+      + '<div class="gpa-bar"><div class="gpa-fill" style="width:' + Math.round(g.pct) + '%"></div></div>'
+      + '<div class="gpa-val">' + g.val + '</div></div>';
+  });
+
+  // Test scores
+  if (s.testScores && s.testScores.length > 0) {
+    const sr = el('score-rows');
+    sr.innerHTML = '<div style="font-size:11px;color:var(--gray-text);margin-bottom:4px;">Test scores</div>';
+    s.testScores.forEach(function(ts) {
+      sr.innerHTML += '<div class="score-row"><span class="score-type">' + ts.type + '</span>'
+        + '<span class="score-val">' + ts.score + '</span>'
+        + '<span class="score-date">' + ts.date + '</span></div>';
+    });
+  }
+
+  // Courses
+  const chips = el('course-chips');
+  s.courses.forEach(function(c) {
+    chips.innerHTML += '<span class="course-chip">' + c + '</span>';
+  });
+
+  // Experience
+  const expList = el('experience-list');
+  s.experience.forEach(function(e) {
+    const bullets = (e.bullets||[]).map(function(b){return '<li>'+b+'</li>';}).join('');
+    expList.innerHTML += '<div class="entry">'
+      + '<div class="entry-icon" style="background:' + e.iconBg + '">' + e.icon + '</div>'
+      + '<div class="entry-content">'
+      + '<div class="entry-title">' + e.title + '</div>'
+      + '<div class="entry-meta">' + e.org + ' · ' + e.dates + '</div>'
+      + (bullets ? '<ul class="entry-bullets">' + bullets + '</ul>' : '')
+      + '</div></div>';
+  });
+
+  // Projects
+  const pg = el('project-grid');
+  s.projects.forEach(function(p) {
+    const tags = (p.tags||[]).map(function(t){return '<span class="proj-tag">'+t+'</span>';}).join('');
+    const link = p.link ? '<a href="' + p.link + '" target="_blank" style="display:inline-block;margin-top:7px;font-size:11px;font-weight:500;color:var(--accent);">View project →</a>' : '';
+    pg.innerHTML += '<div class="proj-card">'
+      + '<div class="proj-thumb" style="background:' + p.iconBg + '">' + p.icon + '</div>'
+      + '<div class="proj-body"><div class="proj-title">' + p.title + '</div>'
+      + '<div class="proj-desc">' + p.desc + '</div>'
+      + '<div class="proj-tags">' + tags + '</div>' + link + '</div></div>';
+  });
+
+  // Skills
+  const sg = el('skills-grid');
+  s.skills.featured.forEach(function(sk){ sg.innerHTML += '<span class="chip feat">'+sk+'</span>'; });
+  s.skills.other.forEach(function(sk){ sg.innerHTML += '<span class="chip">'+sk+'</span>'; });
+
+  // Achievements
+  const al = el('achievements-list');
+  if (!s.achievements || s.achievements.length === 0) {
+    el('side-achievements').style.display = 'none';
+  } else {
+    s.achievements.forEach(function(a) {
+      al.innerHTML += '<div class="entry" style="padding:8px 0;border-bottom:1px solid #f0ede8;">'
+        + '<div class="entry-icon" style="background:' + a.iconBg + ';width:32px;height:32px;font-size:14px;">' + a.icon + '</div>'
+        + '<div class="entry-content"><div class="entry-title" style="font-size:13px;">' + a.title + '</div>'
+        + '<div class="entry-meta">' + a.org + ' · ' + a.date + '</div></div></div>';
+    });
+  }
+
+  // College targets — sidebar hidden by default, Applications tab always shows
+  function renderCollegeList(containerId) {
+    const el2 = el(containerId);
+    if (!el2 || !s.collegeTargets) return;
+    s.collegeTargets.forEach(function(c) {
+      el2.innerHTML += '<div class="target-row"><span>' + c.school + '</span>'
+        + '<span class="target-badge ' + c.type + '">' + c.type.charAt(0).toUpperCase()+c.type.slice(1) + '</span></div>';
+    });
+  }
+  renderCollegeList('college-list');
+  renderCollegeList('college-list-main');
+
+  // Recommendations
+  const rl = el('recs-list');
+  if (!s.recommendations || s.recommendations.length === 0) {
+    if (el('recs-card')) el('recs-card').style.display = 'none';
+  } else {
+    s.recommendations.forEach(function(r) {
+      rl.innerHTML += '<div class="rec-card">'
+        + '<div class="rec-author"><div class="rec-av">' + r.initials + '</div>'
+        + '<div><div class="rec-name">' + r.name + '</div><div class="rec-role">' + r.role + '</div></div></div>'
+        + '<div class="rec-text">"' + r.text + '"</div></div>';
+    });
+  }
+
+  // Completeness
+  if (el('pct-label')) el('pct-label').textContent = s.completeness.pct + '%';
+  if (el('completeness-fill')) el('completeness-fill').style.width = s.completeness.pct + '%';
+  const todosEl = el('todos');
+  if (todosEl) s.completeness.todos.forEach(function(td){ todosEl.innerHTML += '<div class="todo-item">'+td+'</div>'; });
+
+  // Section visibility
+  showSection('about-card',      sec.about);
+  showSection('edu-card',        sec.education);
+  showSection('exp-card',        sec.experience);
+  showSection('proj-card',       sec.projects);
+  showSection('side-skills',     sec.skills);
+  showSection('side-achievements', sec.achievements);
+  showSection('side-college',    sec.collegeTargets);
+  showSection('side-strength',   sec.profileStrength);
+  showSection('recs-card',       sec.recommendations);
+
+})();
+</script>
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+window.addEventListener('load', function() {
+  var eb = document.getElementById('edit-btn');
+  if (eb) eb.style.display = '';
+});
+</script>
+
 </body>
 </html>
