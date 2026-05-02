@@ -293,6 +293,18 @@
     slate:   { accent:'#475569', light:'#F1F5F9', dark:'#1E293B', mid:'#334155' },
   };
 
+  // ── CONFIG (update these if you move repos or change password) ──────────
+  const CONFIG = {
+    password:  "eduprofile2026",
+    github: {
+      owner: "dkwaldon-gold",
+      repo:  "student-portfolio",
+      path:  "index.html"
+    }
+  };
+  // ─────────────────────────────────────────────────────────────────────────
+
+  // __STUDENT_START__
   const STUDENT = {
     name: "Dena W.",
     initials: "DW",
@@ -504,6 +516,7 @@
     }
     // ────────────────────────────────────────────────────────────────────────
   };
+  // __STUDENT_END__
   </script>
   <!-- ════════════════════════════════════════
        END OF EDITABLE DATA
@@ -514,6 +527,7 @@
     <div class="topbar-logo">edu<span>profile</span></div>
     <div class="topbar-actions">
       <button class="btn" onclick="window.print()">⬇ Save as PDF</button>
+      <button class="btn primary no-print" id="edit-btn" onclick="openEditMode()" style="display:none;">✏ Edit Profile</button>
     </div>
   </div>
 
@@ -623,6 +637,405 @@
     </div>
   </div>
 </div>
+
+<!-- ═══════════════════════════════════════════════════
+     EDIT DRAWER
+     ═══════════════════════════════════════════════════ -->
+<div id="edit-overlay" onclick="if(event.target===this)closeEditMode()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:1000;"></div>
+<div id="edit-drawer" style="display:none;position:fixed;top:0;right:0;width:420px;height:100vh;background:#fff;border-left:1px solid #D3D1C7;z-index:1001;overflow-y:auto;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;">
+  <div style="position:sticky;top:0;background:#fff;border-bottom:1px solid #D3D1C7;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;z-index:10;">
+    <span style="font-weight:700;font-size:16px;">Edit Profile</span>
+    <div style="display:flex;gap:8px;">
+      <button onclick="closeEditMode()" style="padding:6px 14px;border-radius:20px;border:1px solid #D3D1C7;background:#fff;cursor:pointer;font-size:13px;">Cancel</button>
+      <button onclick="saveProfile()" id="save-btn" style="padding:6px 16px;border-radius:20px;border:none;background:#6B46C1;color:#fff;cursor:pointer;font-size:13px;font-weight:600;">Save & Deploy</button>
+    </div>
+  </div>
+  <div id="save-status" style="display:none;padding:10px 20px;background:#E1F5EE;color:#085041;font-size:13px;font-weight:500;"></div>
+  <div style="padding:20px;">
+
+    <!-- APPEARANCE -->
+    <div class="es">
+      <div class="es-title">🎨 Appearance</div>
+      <div class="ef-label">Theme</div>
+      <div id="theme-picker" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;"></div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="es">
+      <div class="es-title">👤 Profile</div>
+      <div class="ef-label">Full name (or initials only, e.g. "Dena W.")</div>
+      <input class="ef" id="e-name" type="text" />
+      <div class="ef-label">Initials (for avatar)</div>
+      <input class="ef" id="e-initials" type="text" maxlength="3" style="width:80px;" />
+      <div class="ef-label">Headline</div>
+      <input class="ef" id="e-headline" type="text" />
+      <div class="ef-label">School</div>
+      <input class="ef" id="e-school" type="text" />
+      <div class="ef-label">Graduation year (e.g. "Class of 2027")</div>
+      <input class="ef" id="e-classyear" type="text" />
+      <div class="ef-label">Location</div>
+      <input class="ef" id="e-location" type="text" />
+      <div class="ef-label">About</div>
+      <textarea class="ef" id="e-about" rows="4" style="resize:vertical;"></textarea>
+      <div class="ef-label">Profile photo URL (leave blank for initials)</div>
+      <input class="ef" id="e-photo" type="url" placeholder="https://..." />
+    </div>
+
+    <!-- ACADEMIC -->
+    <div class="es">
+      <div class="es-title">📊 Academic</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+        <div>
+          <div class="ef-label">GPA (unweighted)</div>
+          <input class="ef" id="e-gpa-uw" type="number" step="0.01" min="0" max="4" />
+        </div>
+        <div>
+          <div class="ef-label">GPA (weighted)</div>
+          <input class="ef" id="e-gpa-w" type="number" step="0.01" min="0" max="5" />
+        </div>
+      </div>
+      <div class="ef-label">Test scores</div>
+      <div id="e-scores-list"></div>
+      <button onclick="addScore()" class="add-btn">+ Add score</button>
+      <div class="ef-label" style="margin-top:12px;">Courses (one per line)</div>
+      <textarea class="ef" id="e-courses" rows="5" style="resize:vertical;" placeholder="AP English Language&#10;AP US History&#10;..."></textarea>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div class="es">
+      <div class="es-title">💼 Experience</div>
+      <div id="e-exp-list"></div>
+      <button onclick="addExp()" class="add-btn">+ Add experience</button>
+    </div>
+
+    <!-- PROJECTS -->
+    <div class="es">
+      <div class="es-title">🗂 Projects</div>
+      <div id="e-proj-list"></div>
+      <button onclick="addProj()" class="add-btn">+ Add project</button>
+    </div>
+
+    <!-- SKILLS -->
+    <div class="es">
+      <div class="es-title">⚡ Skills</div>
+      <div class="ef-label">Featured skills (one per line — shown as highlighted chips)</div>
+      <textarea class="ef" id="e-skills-feat" rows="4" style="resize:vertical;"></textarea>
+      <div class="ef-label">Other skills (one per line)</div>
+      <textarea class="ef" id="e-skills-other" rows="4" style="resize:vertical;"></textarea>
+    </div>
+
+    <!-- VISIBILITY -->
+    <div class="es">
+      <div class="es-title">👁 Section visibility</div>
+      <div style="font-size:12px;color:#5F5E5A;margin-bottom:10px;">Toggle sections on/off for the public profile.</div>
+      <div id="e-visibility-list"></div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+.es { border-bottom:1px solid #f0ede8; padding-bottom:18px; margin-bottom:18px; }
+.es-title { font-weight:700; font-size:13px; margin-bottom:12px; color:#1a1a18; }
+.ef-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:#5F5E5A; margin-bottom:4px; margin-top:10px; }
+.ef { width:100%; padding:8px 10px; border:1px solid #D3D1C7; border-radius:8px; font-size:13px; font-family:inherit; color:#1a1a18; background:#fafaf8; outline:none; }
+.ef:focus { border-color:#6B46C1; }
+.add-btn { margin-top:10px; font-size:12px; padding:5px 12px; border-radius:20px; border:1px solid #6B46C1; color:#6B46C1; background:transparent; cursor:pointer; }
+.exp-block, .proj-block { background:#f9f8f5; border-radius:8px; padding:12px; margin-bottom:10px; position:relative; }
+.remove-btn { position:absolute; top:8px; right:8px; font-size:11px; color:#BE185D; background:transparent; border:none; cursor:pointer; padding:2px 6px; }
+.toggle-row { display:flex; align-items:center; justify-content:space-between; padding:6px 0; border-bottom:1px solid #f0ede8; }
+.toggle-row:last-child { border-bottom:none; }
+.toggle-lbl { font-size:13px; }
+.toggle-sw { position:relative; width:36px; height:20px; }
+.toggle-sw input { opacity:0; width:0; height:0; }
+.toggle-sw .slider { position:absolute; inset:0; background:#D3D1C7; border-radius:20px; cursor:pointer; transition:0.2s; }
+.toggle-sw input:checked + .slider { background:#6B46C1; }
+.toggle-sw .slider::before { content:""; position:absolute; width:14px; height:14px; left:3px; top:3px; background:#fff; border-radius:50%; transition:0.2s; }
+.toggle-sw input:checked + .slider::before { transform:translateX(16px); }
+.theme-dot { width:28px; height:28px; border-radius:50%; cursor:pointer; border:3px solid transparent; transition:0.15s; }
+.theme-dot.active { border-color:#1a1a18; transform:scale(1.15); }
+</style>
+
+<script>
+// ── Edit Mode ────────────────────────────────────────────────────────────────
+const THEMES_LIST = [
+  { id:'emerald', color:'#1D9E75', label:'Emerald' },
+  { id:'navy',    color:'#1B5FA8', label:'Navy'    },
+  { id:'purple',  color:'#6B46C1', label:'Purple'  },
+  { id:'gold',    color:'#B7791F', label:'Gold'    },
+  { id:'rose',    color:'#BE185D', label:'Rose'    },
+  { id:'slate',   color:'#475569', label:'Slate'   },
+];
+const SECTION_LABELS = {
+  about:'About', education:'Education', experience:'Experience',
+  projects:'Projects', skills:'Skills', achievements:'Achievements',
+  recommendations:'Recommendations', collegeTargets:'College Targets',
+  profileStrength:'Profile Strength',
+};
+
+let editTheme = '';
+
+function openEditMode() {
+  const pw = prompt('Enter edit password:');
+  if (!pw || pw !== CONFIG.password) { alert('Incorrect password.'); return; }
+  populateForm();
+  document.getElementById('edit-overlay').style.display = 'block';
+  document.getElementById('edit-drawer').style.display = 'block';
+}
+function closeEditMode() {
+  document.getElementById('edit-overlay').style.display = 'none';
+  document.getElementById('edit-drawer').style.display = 'none';
+  document.getElementById('save-status').style.display = 'none';
+}
+
+function populateForm() {
+  const s = STUDENT; const a = s.appearance || {};
+  editTheme = a.theme || 'purple';
+
+  // Theme picker
+  const tp = document.getElementById('theme-picker');
+  tp.innerHTML = '';
+  THEMES_LIST.forEach(function(th) {
+    const d = document.createElement('div');
+    d.className = 'theme-dot' + (th.id === editTheme ? ' active' : '');
+    d.title = th.label;
+    d.style.background = th.color;
+    d.onclick = function() {
+      editTheme = th.id;
+      document.querySelectorAll('.theme-dot').forEach(function(x){ x.classList.remove('active'); });
+      d.classList.add('active');
+    };
+    tp.appendChild(d);
+  });
+
+  // Profile
+  document.getElementById('e-name').value     = s.name || '';
+  document.getElementById('e-initials').value = s.initials || '';
+  document.getElementById('e-headline').value = s.headline || '';
+  document.getElementById('e-school').value   = s.school || '';
+  document.getElementById('e-classyear').value= s.classYear || '';
+  document.getElementById('e-location').value = s.location || '';
+  document.getElementById('e-about').value    = s.about || '';
+  document.getElementById('e-photo').value    = (a.profilePhoto) || '';
+
+  // Academic
+  document.getElementById('e-gpa-uw').value = s.gpa.unweighted;
+  document.getElementById('e-gpa-w').value  = s.gpa.weighted;
+  document.getElementById('e-courses').value = (s.courses||[]).join('
+');
+
+  // Test scores
+  const sl = document.getElementById('e-scores-list');
+  sl.innerHTML = '';
+  (s.testScores||[]).forEach(function(ts, i) { addScore(ts); });
+
+  // Experience
+  const el2 = document.getElementById('e-exp-list');
+  el2.innerHTML = '';
+  (s.experience||[]).forEach(function(e) { addExp(e); });
+
+  // Projects
+  const pl = document.getElementById('e-proj-list');
+  pl.innerHTML = '';
+  (s.projects||[]).forEach(function(p) { addProj(p); });
+
+  // Skills
+  document.getElementById('e-skills-feat').value  = (s.skills.featured||[]).join('
+');
+  document.getElementById('e-skills-other').value = (s.skills.other||[]).join('
+');
+
+  // Visibility
+  const vl = document.getElementById('e-visibility-list');
+  vl.innerHTML = '';
+  const sec = s.sections || {};
+  Object.keys(SECTION_LABELS).forEach(function(key) {
+    const row = document.createElement('div');
+    row.className = 'toggle-row';
+    const checked = sec[key] !== false ? 'checked' : '';
+    row.innerHTML = '<span class="toggle-lbl">' + SECTION_LABELS[key] + '</span>'
+      + '<label class="toggle-sw"><input type="checkbox" id="vis-' + key + '" ' + checked + '><span class="slider"></span></label>';
+    vl.appendChild(row);
+  });
+}
+
+function addScore(data) {
+  data = data || {};
+  const sl = document.getElementById('e-scores-list');
+  const idx = sl.children.length;
+  const div = document.createElement('div');
+  div.className = 'exp-block';
+  div.dataset.idx = idx;
+  div.innerHTML = '<button class="remove-btn" onclick="this.parentNode.remove()">✕</button>'
+    + '<div style="display:grid;grid-template-columns:80px 1fr 1fr;gap:8px;">'
+    + '<div><div class="ef-label">Type</div><select class="ef" style="padding:6px 8px;"><option' + (data.type==='SAT'?' selected':'') + '>SAT</option><option' + (data.type==='ACT'?' selected':'') + '>ACT</option><option' + (data.type==='PSAT'?' selected':'') + '>PSAT</option><option' + (data.type==='AP'?' selected':'') + '>AP</option></select></div>'
+    + '<div><div class="ef-label">Score</div><input class="ef score-val" type="text" value="' + (data.score||'') + '" placeholder="1280" /></div>'
+    + '<div><div class="ef-label">Date</div><input class="ef score-date" type="text" value="' + (data.date||'') + '" placeholder="March 2025" /></div>'
+    + '</div>';
+  sl.appendChild(div);
+}
+
+function addExp(data) {
+  data = data || {};
+  const el2 = document.getElementById('e-exp-list');
+  const div = document.createElement('div');
+  div.className = 'exp-block';
+  div.innerHTML = '<button class="remove-btn" onclick="this.parentNode.remove()">✕</button>'
+    + '<div class="ef-label">Title</div><input class="ef exp-title" type="text" value="' + (data.title||'') + '" />'
+    + '<div class="ef-label">Organization</div><input class="ef exp-org" type="text" value="' + (data.org||'') + '" />'
+    + '<div class="ef-label">Dates</div><input class="ef exp-dates" type="text" value="' + (data.dates||'') + '" placeholder="2023 – Present" />'
+    + '<div class="ef-label">Bullet points (one per line)</div>'
+    + '<textarea class="ef exp-bullets" rows="3" style="resize:vertical;">' + (data.bullets||[]).join('
+') + '</textarea>';
+  el2.appendChild(div);
+}
+
+function addProj(data) {
+  data = data || {};
+  const pl = document.getElementById('e-proj-list');
+  const div = document.createElement('div');
+  div.className = 'proj-block';
+  div.innerHTML = '<button class="remove-btn" onclick="this.parentNode.remove()">✕</button>'
+    + '<div class="ef-label">Title</div><input class="ef proj-title" type="text" value="' + (data.title||'') + '" />'
+    + '<div class="ef-label">Description</div><textarea class="ef proj-desc" rows="2" style="resize:vertical;">' + (data.desc||'') + '</textarea>'
+    + '<div class="ef-label">Tags (comma separated)</div><input class="ef proj-tags" type="text" value="' + (data.tags||[]).join(', ') + '" />'
+    + '<div class="ef-label">Portfolio link (Google Drive, Canva, etc.)</div><input class="ef proj-link" type="url" value="' + (data.link||'') + '" placeholder="https://..." />';
+  pl.appendChild(div);
+}
+
+function buildStudentObject() {
+  const s = JSON.parse(JSON.stringify(STUDENT)); // deep copy
+
+  s.appearance.theme = editTheme;
+  s.name       = document.getElementById('e-name').value.trim();
+  s.initials   = document.getElementById('e-initials').value.trim().toUpperCase();
+  s.headline   = document.getElementById('e-headline').value.trim();
+  s.school     = document.getElementById('e-school').value.trim();
+  s.classYear  = document.getElementById('e-classyear').value.trim();
+  s.location   = document.getElementById('e-location').value.trim();
+  s.about      = document.getElementById('e-about').value.trim();
+  s.appearance.profilePhoto = document.getElementById('e-photo').value.trim();
+
+  s.gpa.unweighted = parseFloat(document.getElementById('e-gpa-uw').value) || 0;
+  s.gpa.weighted   = parseFloat(document.getElementById('e-gpa-w').value)  || 0;
+  s.courses = document.getElementById('e-courses').value.split('
+').map(function(x){return x.trim();}).filter(Boolean);
+
+  s.testScores = [];
+  document.querySelectorAll('#e-scores-list .exp-block').forEach(function(b) {
+    s.testScores.push({
+      type:  b.querySelector('select').value,
+      score: b.querySelector('.score-val').value.trim(),
+      date:  b.querySelector('.score-date').value.trim()
+    });
+  });
+
+  s.experience = [];
+  document.querySelectorAll('#e-exp-list .exp-block').forEach(function(b) {
+    s.experience.push({
+      title:   b.querySelector('.exp-title').value.trim(),
+      org:     b.querySelector('.exp-org').value.trim(),
+      dates:   b.querySelector('.exp-dates').value.trim(),
+      icon:    '💼',
+      iconBg:  '#FAEEDA',
+      bullets: b.querySelector('.exp-bullets').value.split('
+').map(function(x){return x.trim();}).filter(Boolean)
+    });
+  });
+
+  s.projects = [];
+  document.querySelectorAll('#e-proj-list .proj-block').forEach(function(b) {
+    s.projects.push({
+      title:  b.querySelector('.proj-title').value.trim(),
+      desc:   b.querySelector('.proj-desc').value.trim(),
+      icon:   '📁',
+      iconBg: '#EEEDFE',
+      tags:   b.querySelector('.proj-tags').value.split(',').map(function(x){return x.trim();}).filter(Boolean),
+      link:   b.querySelector('.proj-link').value.trim()
+    });
+  });
+
+  s.skills.featured = document.getElementById('e-skills-feat').value.split('
+').map(function(x){return x.trim();}).filter(Boolean);
+  s.skills.other    = document.getElementById('e-skills-other').value.split('
+').map(function(x){return x.trim();}).filter(Boolean);
+
+  s.sections = {};
+  Object.keys(SECTION_LABELS).forEach(function(key) {
+    const cb = document.getElementById('vis-' + key);
+    s.sections[key] = cb ? cb.checked : true;
+  });
+
+  return s;
+}
+
+async function saveProfile() {
+  const btn = document.getElementById('save-btn');
+  const status = document.getElementById('save-status');
+  btn.textContent = 'Saving...';
+  btn.disabled = true;
+  status.style.display = 'none';
+
+  try {
+    const newStudent = buildStudentObject();
+    const cfg = CONFIG.github;
+
+    // Fetch current file from GitHub (public repo — no token needed for read)
+    const getRes = await fetch('https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + cfg.path, {
+      headers: { 'Accept': 'application/vnd.github.v3+json' }
+    });
+    const getJson = await getRes.json();
+    const sha = getJson.sha;
+    const rawContent = getJson.content.replace(/\n/g, '');
+    const currentHtml = decodeURIComponent(escape(atob(rawContent)));
+
+    // Replace STUDENT block between markers
+    const SM = '  // __STUDENT_START__\n  const STUDENT = ';
+    const EM = ';\n  // __STUDENT_END__';
+    const si = currentHtml.indexOf(SM);
+    const ei = currentHtml.indexOf(EM);
+    if (si === -1 || ei === -1) throw new Error('Could not find STUDENT markers in file.');
+    const newHtml = currentHtml.slice(0, si) + SM
+      + JSON.stringify(newStudent, null, 2).replace(/^/mg, '  ').trim()
+      + EM + currentHtml.slice(ei + EM.length);
+
+    // Push via Pages Function — token lives in Cloudflare, never in this file
+    const putRes = await fetch('/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        password: CONFIG.password,
+        owner: cfg.owner, repo: cfg.repo, path: cfg.path,
+        content: btoa(unescape(encodeURIComponent(newHtml))),
+        sha: sha
+      })
+    });
+    if (!putRes.ok) {
+      const e = await putRes.json().catch(function(){return{error:putRes.status};});
+      throw new Error('Save failed: ' + (e.error || putRes.status));
+    }
+
+    status.style.background = '#E1F5EE'; status.style.color = '#085041';
+    status.textContent = '✓ Saved! Your profile is deploying — it will update in about 30 seconds.';
+    status.style.display = 'block';
+    btn.textContent = 'Saved ✓';
+
+    setTimeout(function() { window.location.reload(); }, 32000);
+
+  } catch(err) {
+    status.style.background = '#FBEAF0'; status.style.color = '#7C0D3D';
+    status.textContent = '✗ Error: ' + err.message;
+    status.style.display = 'block';
+    btn.textContent = 'Save & Deploy';
+    btn.disabled = false;
+  }
+}
+
+// Show edit button after page loads
+window.addEventListener('load', function() {
+  document.getElementById('edit-btn').style.display = '';
+});
+</script>
 
 <script>
 (function() {
