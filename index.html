@@ -39,7 +39,7 @@
 
   /* ── Layout ── */
   .page { max-width: 960px; margin: 0 auto; padding: 24px 16px 60px; }
-  .columns { display: grid; grid-template-columns: 280px 1fr; gap: 20px; align-items: start; }
+  .columns { display: grid; grid-template-columns: 260px 1fr; gap: 20px; align-items: start; }
   @media (max-width: 680px) { .columns { grid-template-columns: 1fr; } }
 
   /* ── Cards ── */
@@ -60,34 +60,51 @@
     margin-bottom: 14px;
   }
 
-  /* ── Profile Card — LinkedIn layout ── */
+  /* ── Profile Header — full-width LinkedIn style ── */
+  .profile-header-card {
+    background: var(--white);
+    border: 1px solid var(--gray-border);
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
   .profile-banner {
-    height: 160px;
-    border-radius: var(--radius) var(--radius) 0 0;
-    margin: -20px -22px 0;
+    height: 200px;
+    width: 100%;
     background: linear-gradient(120deg, var(--green-mid), var(--green));
     position: relative;
   }
-  .profile-avatar-wrap {
+  .profile-header-body {
+    padding: 0 24px 20px;
     position: relative;
-    margin: 0 0 0 4px;
-    margin-top: -48px;
+  }
+  .profile-avatar-wrap {
+    margin-top: -52px;
     display: inline-block;
+    position: relative;
+    z-index: 2;
   }
   .profile-avatar {
-    width: 96px; height: 96px;
+    width: 104px; height: 104px;
     border-radius: 50%;
     border: 4px solid var(--white);
     background: var(--green-light);
     display: flex; align-items: center; justify-content: center;
-    font-size: 32px; font-weight: 600; color: var(--green-dark);
-    position: relative; z-index: 1;
+    font-size: 36px; font-weight: 600; color: var(--green-dark);
     overflow: hidden;
   }
-  .profile-info { padding: 6px 0 0 0; }
-  .profile-name { font-size: 22px; font-weight: 700; margin-top: 4px; }
-  .profile-headline { font-size: 14px; color: var(--gray-text); margin-top: 3px; line-height: 1.4; }
-  .profile-location { font-size: 13px; color: var(--gray-text); margin-top: 5px; }
+  .profile-info { margin-top: 10px; }
+  .profile-name { font-size: 24px; font-weight: 700; }
+  .profile-headline { font-size: 15px; color: var(--gray-text); margin-top: 4px; line-height: 1.4; }
+  .profile-location { font-size: 13px; color: var(--gray-text); margin-top: 6px; }
+  .profile-contact { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--gray-border); display: flex; flex-wrap: wrap; gap: 16px; }
+  .contact-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--gray-text); }
+  .contact-icon { font-size: 14px; }
+  .stats-row { display: flex; gap: 32px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--gray-border); }
+  .stat-item { text-align: left; }
+  .stat-num { font-size: 22px; font-weight: 700; color: var(--green); }
+  .stat-lbl { font-size: 12px; color: var(--gray-text); margin-top: 1px; }
   .profile-contact { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--gray-border); }
   .contact-item {
     display: flex; align-items: center; gap: 8px;
@@ -467,26 +484,28 @@
     </div>
   </div>
 
+  <!-- Full-width profile header -->
+  <div class="profile-header-card" id="profile-card">
+    <div class="profile-banner" id="profile-banner"></div>
+    <div class="profile-header-body">
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar" id="avatar-initials"></div>
+      </div>
+      <div class="profile-info">
+        <div class="profile-name" id="profile-name"></div>
+        <div class="profile-headline" id="profile-headline"></div>
+        <div class="profile-location" id="profile-location"></div>
+      </div>
+      <div class="profile-contact" id="profile-contact"></div>
+      <div class="stats-row" id="stats-row"></div>
+    </div>
+  </div>
+
   <!-- Two-column layout -->
   <div class="columns" id="main-columns">
 
     <!-- ── LEFT COLUMN ── -->
     <div id="left-col">
-
-      <!-- Profile card -->
-      <div class="card" id="profile-card">
-        <div class="profile-banner" id="profile-banner"></div>
-        <div class="profile-avatar-wrap">
-          <div class="profile-avatar" id="avatar-initials"></div>
-        </div>
-        <div class="profile-info">
-          <div class="profile-name" id="profile-name"></div>
-          <div class="profile-headline" id="profile-headline"></div>
-          <div class="profile-location" id="profile-location"></div>
-        </div>
-        <div class="profile-contact" id="profile-contact"></div>
-        <div class="stats-row" id="stats-row"></div>
-      </div>
 
       <!-- College targets -->
       <div class="card" id="college-card">
