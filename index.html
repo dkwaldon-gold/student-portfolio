@@ -194,19 +194,7 @@
     border-radius: 20px; margin: 3px 2px;
   }
 
-  /* ── College targets ── */
-  .target-row {
-    display: flex; align-items: center; justify-content: space-between;
-    font-size: 13px; padding: 6px 0;
-    border-bottom: 1px solid #f0ede8;
-  }
-  .target-row:last-child { border-bottom: none; }
-  .target-badge {
-    font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 500;
-  }
-  .reach { background: var(--purple-light); color: var(--purple-dark); }
-  .match { background: var(--green-light); color: var(--green-dark); }
-  .safety { background: var(--blue-light); color: var(--blue-dark); }
+
 
   /* ── Completeness bar ── */
   .completeness-bar { height: 6px; background: var(--gray-bg); border-radius: 3px; overflow: hidden; margin: 8px 0; }
@@ -515,12 +503,6 @@
     <!-- ── LEFT COLUMN ── -->
     <div id="left-col">
 
-      <!-- College targets -->
-      <div class="card" id="college-card">
-        <div class="card-title">College targets</div>
-        <div id="college-list"></div>
-      </div>
-
       <!-- Profile completeness -->
       <div class="card no-print" id="completeness-card">
         <div class="card-title">Profile strength</div>
@@ -705,16 +687,6 @@
     const cdiv = el('contact-divider');
     if (cdiv) cdiv.style.display = '';
   }
-
-  // College targets
-  const colleges = el('college-list');
-  s.collegeTargets.forEach(c => {
-    colleges.innerHTML += `
-      <div class="target-row">
-        <span>${c.school}</span>
-        <span class="target-badge ${c.type}">${c.type.charAt(0).toUpperCase()+c.type.slice(1)}</span>
-      </div>`;
-  });
 
   // Completeness
   el('pct-label').textContent = s.completeness.pct + '%';
