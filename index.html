@@ -196,6 +196,18 @@
 
 
 
+  /* ── College targets ── */
+  .target-row {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 13px; padding: 6px 0;
+    border-bottom: 1px solid #f0ede8;
+  }
+  .target-row:last-child { border-bottom: none; }
+  .target-badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+  .reach  { background: var(--purple-light); color: var(--purple-dark); }
+  .match  { background: var(--green-light);  color: var(--green-dark);  }
+  .safety { background: var(--blue-light);   color: var(--blue-dark);   }
+
   /* ── Completeness bar ── */
   .completeness-bar { height: 6px; background: var(--gray-bg); border-radius: 3px; overflow: hidden; margin: 8px 0; }
   .completeness-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width 0.4s; }
@@ -461,7 +473,23 @@
     completeness: {
       pct: 70,
       todos: ["Add SAT/ACT scores", "Upload portfolio samples", "Add community involvement"]
+    },
+
+    // ── SECTION VISIBILITY ─────────────────────────────────────────────────
+    // Set any section to false to hide it from the public profile.
+    // Everything is visible by default except collegeTargets and profileStrength.
+    sections: {
+      about:           true,
+      education:       true,
+      experience:      true,
+      projects:        true,
+      skills:          true,
+      achievements:    true,
+      recommendations: true,
+      collegeTargets:  false,   // ← flip to true to show college targets
+      profileStrength: false,   // internal planning tool — hide from public
     }
+    // ────────────────────────────────────────────────────────────────────────
   };
   </script>
   <!-- ════════════════════════════════════════
@@ -503,6 +531,12 @@
     <!-- ── LEFT COLUMN ── -->
     <div id="left-col">
 
+      <!-- College targets (visibility-controlled) -->
+      <div class="card" id="college-card" style="display:none;">
+        <div class="card-title">College targets</div>
+        <div id="college-list"></div>
+      </div>
+
       <!-- Profile completeness -->
       <div class="card no-print" id="completeness-card">
         <div class="card-title">Profile strength</div>
@@ -521,13 +555,13 @@
     <div id="right-col">
 
       <!-- About -->
-      <div class="card">
+      <div class="card" id="about-card">
         <div class="card-title">About</div>
         <div class="about-text" id="about-text"></div>
       </div>
 
       <!-- Education -->
-      <div class="card">
+      <div class="card" id="edu-card">
         <div class="card-title">Education</div>
         <div class="entry">
           <div class="entry-icon" style="background:#E6F1FB;font-size:22px;">🎓</div>
@@ -544,19 +578,19 @@
       </div>
 
       <!-- Experience -->
-      <div class="card">
+      <div class="card" id="exp-card">
         <div class="card-title">Experience</div>
         <div id="experience-list"></div>
       </div>
 
       <!-- Projects -->
-      <div class="card">
+      <div class="card" id="proj-card">
         <div class="card-title">Projects & portfolio</div>
         <div class="project-grid" id="project-grid"></div>
       </div>
 
       <!-- Skills -->
-      <div class="card">
+      <div class="card" id="skills-card">
         <div class="card-title">Skills</div>
         <div class="skills-grid" id="skills-grid"></div>
       </div>
@@ -581,6 +615,12 @@
 (function() {
   const s = STUDENT;
   const a = s.appearance || {};
+  const sec = s.sections || {};
+  // Helper: show/hide a section card based on visibility flag
+  function showSection(id, flag) {
+    const el2 = document.getElementById(id);
+    if (el2) el2.style.display = (flag === false) ? 'none' : '';
+  }
 
   // ── Apply theme ──────────────────��──────────────────────
   const t = a.theme === 'custom' ? a.custom : (THEMES[a.theme] || THEMES.emerald);
@@ -686,6 +726,26 @@
   if (hasContact) {
     const cdiv = el('contact-divider');
     if (cdiv) cdiv.style.display = '';
+  }
+
+  // Apply section visibility flags
+  showSection('college-card',      sec.collegeTargets);
+  showSection('completeness-card', sec.profileStrength);
+  showSection('about-card',        sec.about);
+  // right-col cards identified by their card-title content — use wrapper IDs added below
+  showSection('edu-card',          sec.education);
+  showSection('exp-card',          sec.experience);
+  showSection('proj-card',         sec.projects);
+  showSection('skills-card',       sec.skills);
+  showSection('achievements-card', sec.achievements);
+  showSection('recs-card',         sec.recommendations);
+
+  // College targets (rendered even when hidden so data is ready if toggled)
+  const colleges = el('college-list');
+  if (s.collegeTargets) {
+    s.collegeTargets.forEach(c => {
+      colleges.innerHTML += \`<div class="target-row"><span>\${c.school}</span><span class="target-badge \${c.type}">\${c.type.charAt(0).toUpperCase()+c.type.slice(1)}</span></div>\`;
+    });
   }
 
   // Completeness
