@@ -660,6 +660,14 @@ const THEMES_LIST = [
   { id:'rose',    color:'#BE185D', label:'Rose'    },
   { id:'slate',   color:'#475569', label:'Slate'   },
 ];
+const THEMES = {
+  emerald: { accent:'#1D9E75', light:'#ECFDF5', dark:'#065F46', mid:'#059669' },
+  navy:    { accent:'#1B5FA8', light:'#EFF6FF', dark:'#1E3A5F', mid:'#2563EB' },
+  purple:  { accent:'#6B46C1', light:'#EDE9FE', dark:'#4C1D95', mid:'#7C3AED' },
+  gold:    { accent:'#B7791F', light:'#FFFBEB', dark:'#78350F', mid:'#D97706' },
+  rose:    { accent:'#BE185D', light:'#FFF1F2', dark:'#9D174D', mid:'#E11D48' },
+  slate:   { accent:'#475569', light:'#F1F5F9', dark:'#1E293B', mid:'#64748B' },
+};
 const SECTION_LABELS = {
   about:'About', education:'Education', experience:'Experience',
   projects:'Projects', skills:'Skills', achievements:'Achievements',
@@ -950,6 +958,10 @@ window.addEventListener('load', function() {
     --green-light: ${t.light};
     --green-dark: ${t.dark};
     --green-mid: ${t.mid};
+    --accent: ${t.accent};
+    --accent-light: ${t.light};
+    --accent-dark: ${t.dark};
+    --accent-mid: ${t.mid};
   }
   a { color: ${t.accent}; }
   .stat-num, .gpa-val, #pct-label { color: ${t.accent} !important; }
