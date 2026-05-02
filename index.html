@@ -744,7 +744,7 @@
   const colleges = el('college-list');
   if (s.collegeTargets) {
     s.collegeTargets.forEach(c => {
-      colleges.innerHTML += \`<div class="target-row"><span>\${c.school}</span><span class="target-badge \${c.type}">\${c.type.charAt(0).toUpperCase()+c.type.slice(1)}</span></div>\`;
+      colleges.innerHTML += '<div class="target-row"><span>' + c.school + '</span><span class="target-badge ' + c.type + '">' + c.type.charAt(0).toUpperCase() + c.type.slice(1) + '</span></div>';
     });
   }
 
