@@ -942,7 +942,7 @@ window.addEventListener('load', function() {
 
 
 <script>
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
   const s = STUDENT;
   const a = s.appearance || {};
   const sec = s.sections || {};
@@ -1103,8 +1103,7 @@ window.addEventListener('load', function() {
   showSection('side-college',    sec.collegeTargets);
   showSection('side-strength',   sec.profileStrength);
   showSection('recs-card',       sec.recommendations);
-
-})();
+});
 </script>
 
 <script>
