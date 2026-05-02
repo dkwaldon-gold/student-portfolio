@@ -75,15 +75,19 @@
     background: linear-gradient(120deg, var(--green-mid), var(--green));
     position: relative;
   }
+  /* Profile header — single horizontal row */
   .profile-header-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
     padding: 0 24px 20px;
     position: relative;
   }
   .profile-avatar-wrap {
     margin-top: -52px;
-    display: inline-block;
-    position: relative;
+    flex-shrink: 0;
     z-index: 2;
+    position: relative;
   }
   .profile-avatar {
     width: 104px; height: 104px;
@@ -94,41 +98,33 @@
     font-size: 36px; font-weight: 600; color: var(--green-dark);
     overflow: hidden;
   }
-  .profile-info { margin-top: 10px; }
-  .profile-name { font-size: 24px; font-weight: 700; }
-  .profile-headline { font-size: 15px; color: var(--gray-text); margin-top: 4px; line-height: 1.4; }
-  .profile-location { font-size: 13px; color: var(--gray-text); margin-top: 6px; }
-  .profile-contact { display: none; }
-  .contact-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--gray-text); }
-  .contact-icon { font-size: 14px; }
-  .stats-contact-row {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--gray-border);
-    flex-wrap: wrap; gap: 12px;
+  /* Right side: name col + stats col + contact col, all in one flex row */
+  .profile-right-group {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: 20px;
+    padding-top: 14px;
+    min-width: 0;
+    flex-wrap: wrap;
   }
-  .stats-group { display: flex; gap: 28px; align-items: center; }
-  .stat-item { text-align: left; }
+  .profile-info { flex: 1; min-width: 160px; }
+  .profile-name { font-size: 22px; font-weight: 700; }
+  .profile-headline { font-size: 14px; color: var(--gray-text); margin-top: 3px; line-height: 1.4; }
+  .profile-location { font-size: 12px; color: var(--gray-text); margin-top: 5px; }
+  .profile-vert-divider { width: 1px; height: 44px; background: var(--gray-border); flex-shrink: 0; }
+  .stats-group { display: flex; gap: 22px; align-items: center; flex-shrink: 0; }
+  .stat-item { text-align: center; }
   .stat-num { font-size: 20px; font-weight: 700; color: var(--green); }
   .stat-lbl { font-size: 11px; color: var(--gray-text); margin-top: 1px; }
   .stat-divider { width: 1px; height: 32px; background: var(--gray-border); }
-  .contact-end { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--gray-text); }
+  .contact-end { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--gray-text); flex-shrink: 0; }
   .contact-end a { color: var(--green); font-size: 13px; }
-  .profile-contact { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--gray-border); }
-  .contact-item {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 13px; color: var(--gray-text); margin-bottom: 6px;
-  }
+  .profile-contact { display: none; }
+  .contact-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--gray-text); margin-bottom: 6px; }
   .contact-icon { width: 16px; text-align: center; font-size: 14px; }
 
-  /* ── Stats row ── */
-  .stats-row {
-    display: flex; justify-content: space-around;
-    margin-top: 14px; padding-top: 14px;
-    border-top: 1px solid var(--gray-border);
-    text-align: center;
-  }
-  .stat-num { font-size: 20px; font-weight: 700; color: var(--green); }
-  .stat-lbl { font-size: 11px; color: var(--gray-text); margin-top: 2px; }
+  /* Stats row — see .stats-group in profile header section */
 
   /* ── Section entries ── */
   .entry { display: flex; gap: 14px; margin-bottom: 16px; }
@@ -499,14 +495,15 @@
       <div class="profile-avatar-wrap">
         <div class="profile-avatar" id="avatar-initials"></div>
       </div>
-      <div class="profile-info">
-        <div class="profile-name" id="profile-name"></div>
-        <div class="profile-headline" id="profile-headline"></div>
-        <div class="profile-location" id="profile-location"></div>
-      </div>
-      <div class="profile-contact" id="profile-contact"></div>
-      <div class="stats-contact-row">
+      <div class="profile-right-group">
+        <div class="profile-info">
+          <div class="profile-name" id="profile-name"></div>
+          <div class="profile-headline" id="profile-headline"></div>
+          <div class="profile-location" id="profile-location"></div>
+        </div>
+        <div class="profile-vert-divider"></div>
         <div class="stats-group" id="stats-row"></div>
+        <div class="profile-vert-divider" id="contact-divider" style="display:none;"></div>
         <div class="contact-end" id="contact-end"></div>
       </div>
     </div>
@@ -691,14 +688,22 @@
 
   // Contact end (email / website / linkedin)
   const contactEnd = el('contact-end');
+  let hasContact = false;
   if (s.email) {
     contactEnd.innerHTML += '<span style="font-size:15px;">✉️</span><a href="mailto:' + s.email + '">' + s.email + '</a>';
+    hasContact = true;
   }
   if (s.linkedin) {
     contactEnd.innerHTML += '<span style="margin-left:12px;font-size:15px;">🔗</span><a href="' + s.linkedin + '">LinkedIn</a>';
+    hasContact = true;
   }
   if (s.website) {
     contactEnd.innerHTML += '<span style="margin-left:12px;font-size:15px;">🌐</span><a href="' + s.website + '">' + s.website + '</a>';
+    hasContact = true;
+  }
+  if (hasContact) {
+    const cdiv = el('contact-divider');
+    if (cdiv) cdiv.style.display = '';
   }
 
   // College targets
