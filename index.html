@@ -39,7 +39,26 @@ a { color: var(--accent); text-decoration: none; }
 .btn.primary:hover { background: var(--accent-mid); }
 
 /* ── App layout ── */
-.app { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; display: grid; grid-template-columns: 280px 1fr; gap: 20px; align-items: start; }
+.profile-header { background: var(--white); border-bottom: 1px solid var(--gray-border); }
+.profile-banner-full { height: 140px; background: linear-gradient(120deg, var(--accent-mid, #7C3AED), var(--accent)); }
+.profile-header-body { max-width: 1100px; margin: 0 auto; padding: 0 24px 20px; display: flex; align-items: flex-end; gap: 20px; }
+.ph-avatar-wrap { margin-top: -44px; flex-shrink: 0; }
+.ph-avatar { width: 88px; height: 88px; border-radius: 50%; border: 4px solid var(--white); background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; color: var(--accent-dark); overflow: hidden; }
+.ph-info { flex: 1; padding-top: 12px; }
+.ph-name { font-size: 22px; font-weight: 700; color: var(--text); line-height: 1.2; }
+.ph-headline { font-size: 13px; color: var(--gray-text); margin-top: 3px; }
+.ph-school { font-size: 12px; color: var(--gray-text); margin-top: 2px; }
+.ph-stats { display: flex; gap: 0; align-items: center; flex-shrink: 0; padding-top: 12px; }
+.ph-stat { text-align: center; padding: 0 20px; border-left: 1px solid var(--gray-border); }
+.ph-stat:first-child { border-left: none; }
+.ph-num { font-size: 22px; font-weight: 700; color: var(--accent); }
+.ph-lbl { font-size: 11px; color: var(--gray-text); }
+.tab-bar { background: var(--white); border-bottom: 1px solid var(--gray-border); box-shadow: var(--shadow); }
+.tab-bar-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; display: flex; gap: 4px; }
+.tab-bar .tab-btn { padding: 14px 20px; border-radius: 0; border: none; background: transparent; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--gray-text); font-family: inherit; border-bottom: 3px solid transparent; transition: 0.15s; }
+.tab-bar .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); background: transparent; }
+.tab-bar .tab-btn:hover:not(.active) { color: var(--text); background: var(--gray-bg); }
+.app { max-width: 1100px; margin: 0 auto; padding: 20px 24px 60px; display: grid; grid-template-columns: 260px 1fr; gap: 20px; align-items: start; }
 @media (max-width: 720px) { .app { grid-template-columns: 1fr; } }
 
 /* ── Sidebar student card ── */
@@ -413,24 +432,36 @@ a { color: var(--accent); text-decoration: none; }
   </div>
 </nav>
 
+<!-- ── FULL-BLEED PROFILE HEADER ── -->
+<div class="profile-header no-print-header">
+  <div class="profile-banner-full" id="sc-banner"></div>
+  <div class="profile-header-body">
+    <div class="ph-avatar-wrap">
+      <div class="ph-avatar" id="sc-avatar"></div>
+    </div>
+    <div class="ph-info">
+      <div class="ph-name" id="sc-name"></div>
+      <div class="ph-headline" id="sc-headline"></div>
+      <div class="ph-school" id="sc-school"></div>
+    </div>
+    <div class="ph-stats" id="sc-stats"></div>
+  </div>
+</div>
+
+<!-- ── FULL-WIDTH TAB BAR ── -->
+<div class="tab-bar no-print">
+  <div class="tab-bar-inner">
+    <button class="tab-btn active" onclick="showTab('profile',this)">Profile</button>
+    <button class="tab-btn" onclick="showTab('portfolio',this)">Portfolio</button>
+    <button class="tab-btn" onclick="showTab('applications',this)">Applications</button>
+    <button class="tab-btn" onclick="showTab('network',this)">Network</button>
+  </div>
+</div>
+
 <div class="app">
 
   <!-- ── LEFT SIDEBAR ── -->
   <div id="sidebar">
-
-    <!-- Student card -->
-    <div class="student-card">
-      <div class="sc-banner" id="sc-banner"></div>
-      <div class="sc-body">
-        <div class="sc-avatar-wrap">
-          <div class="sc-avatar" id="sc-avatar"></div>
-        </div>
-        <div class="sc-name" id="sc-name"></div>
-        <div class="sc-school" id="sc-school"></div>
-        <div id="sc-badge-wrap"></div>
-        <div class="sc-stats" id="sc-stats"></div>
-      </div>
-    </div>
 
     <!-- Skills -->
     <div class="side-card" id="side-skills">
@@ -465,14 +496,6 @@ a { color: var(--accent); text-decoration: none; }
 
   <!-- ── MAIN CONTENT ── -->
   <div class="main-content">
-
-    <!-- Tab nav -->
-    <div class="tab-nav no-print">
-      <button class="tab-btn active" onclick="showTab('profile',this)">Profile</button>
-      <button class="tab-btn" onclick="showTab('portfolio',this)">Portfolio</button>
-      <button class="tab-btn" onclick="showTab('applications',this)">Applications</button>
-      <button class="tab-btn" onclick="showTab('network',this)">Network</button>
-    </div>
 
     <!-- Profile tab -->
     <div class="tab-panel active" id="tab-profile">
@@ -1000,13 +1023,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Name / school
   el('sc-name').textContent = s.name;
+  if (el('sc-headline')) el('sc-headline').textContent = s.headline;
   el('sc-school').textContent = s.school + ' · ' + s.classYear;
 
   // Stats
   el('sc-stats').innerHTML =
-    '<div class="sc-stat"><div class="sc-num">' + s.gpa.unweighted + '</div><div class="sc-lbl">GPA</div></div>' +
-    '<div class="sc-stat"><div class="sc-num">' + s.experience.length + '</div><div class="sc-lbl">Activities</div></div>' +
-    '<div class="sc-stat"><div class="sc-num">' + s.projects.length + '</div><div class="sc-lbl">Projects</div></div>';
+    '<div class="ph-stat"><div class="ph-num">' + s.gpa.unweighted + '</div><div class="ph-lbl">GPA</div></div>' +
+    '<div class="ph-stat"><div class="ph-num">' + s.experience.length + '</div><div class="ph-lbl">Activities</div></div>' +
+    '<div class="ph-stat"><div class="ph-num">' + s.projects.length + '</div><div class="ph-lbl">Projects</div></div>';
 
   // About
   if (el('about-text')) el('about-text').textContent = s.about;
