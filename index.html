@@ -390,7 +390,7 @@ a { color: var(--accent); text-decoration: none; }
     </div>
 
     <!-- Achievements -->
-    <div class="side-card" id="side-achievements">
+    <div class="side-card" id="side-achievements" style="display:none;">
       <div class="side-title">Achievements & honors</div>
       <div id="achievements-list"></div>
     </div>
@@ -1065,14 +1065,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Completeness
-  if (el('pct-label')) el('pct-label').textContent = s.completeness.pct + '%';
-  if (el('completeness-fill')) el('completeness-fill').style.width = s.completeness.pct + '%';
-  const todosEl = el('todos');
-  if (todosEl) s.completeness.todos.forEach(function(td){ todosEl.innerHTML += '<div class="todo-item">'+td+'</div>'; });
+  // Completeness — calculated dynamically
+  (function() {
+    var pct = 0; var todos = [];
+    if (s.about && s.about.trim())                          pct += 20; else todos.push('Add a bio / about section');
+    if (s.gpa && s.gpa.unweighted)                          pct += 15; else todos.push('Add your GPA');
+    if (s.courses && s.courses.length > 0)                  pct += 10; else todos.push('Add coursework');
+    if (s.experience && s.experience.length > 0)            pct += 20; else todos.push('Add activities or experience');
+    if (s.projects && s.projects.length > 0)                pct += 15; else todos.push('Add projects to your portfolio');
+    if (s.skills && s.skills.featured && s.skills.featured.length > 0) pct += 10; else todos.push('Add skills');
+    if (s.achievements && s.achievements.length > 0)        pct += 5;
+    if (s.recommendations && s.recommendations.length > 0)  pct += 5;
+    if (s.collegeTargets && s.collegeTargets.length > 0)    pct += 0;
+    if (pct >= 95) todos = ['Profile is complete!'];
+    if (el('pct-label'))        el('pct-label').textContent = pct + '%';
+    if (el('completeness-fill')) el('completeness-fill').style.width = pct + '%';
+    var todosEl = el('todos');
+    if (todosEl) todos.forEach(function(td){ todosEl.innerHTML += '<div class="todo-item">'+td+'</div>'; });
+  })();
 
-  // Section visibility
-  showSection('about-card',      sec.about);
+  // Section visibility — only show if sec flag AND data exists
+  showSection('about-card',      sec.about && !!(s.about && s.about.trim()));
+  showSection('side-achievements', sec.achievements && s.achievements && s.achievements.length > 0);
+  showSection('side-college',    sec.collegeTargets && s.collegeTargets && s.collegeTargets.length > 0);
+  showSection('side-strength',   true);
   showSection('edu-card',        sec.education);
   showSection('exp-card',        sec.experience);
   showSection('proj-card',       sec.projects);
