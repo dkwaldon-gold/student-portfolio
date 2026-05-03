@@ -16,8 +16,11 @@ export async function onRequestPost(context) {
 
   const { owner, repo, path, content, sha, branch } = body;
   if (!owner || !repo || !path || !content || !sha) {
-    return new Response(JSON.stringify({ error: 'Missing fields' }), { status: 400, headers: cors });
+    return new Response(JSON.stringify({ error: 'Missing fields', got: { owner, repo, path, hasSha: !!sha, branch } }), { status: 400, headers: cors });
   }
+
+  const ghBody = { message: 'Profile updated via edit mode', content, sha };
+  if (branch) ghBody.branch = branch;
 
   const ghRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
     method: 'PUT',
@@ -27,12 +30,16 @@ export async function onRequestPost(context) {
       'Content-Type': 'application/json',
       'User-Agent': 'EduProfile-Pages-Function',
     },
-    body: JSON.stringify({ message: 'Profile updated via edit mode', content, sha, branch: branch || undefined }),
+    body: JSON.stringify(ghBody),
   });
 
   const ghJson = await ghRes.json();
   if (!ghRes.ok) {
-    return new Response(JSON.stringify({ error: 'GitHub push failed', detail: ghJson }), { status: 500, headers: cors });
+    return new Response(JSON.stringify({
+      error: ghJson.message || 'GitHub push failed',
+      ghStatus: ghRes.status,
+      branch: branch || '(none)',
+    }), { status: 500, headers: cors });
   }
 
   return new Response(JSON.stringify({ ok: true }), { status: 200, headers: cors });
