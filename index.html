@@ -771,7 +771,8 @@ async function saveProfile() {
     const cfg = CONFIG.github;
 
     // Fetch current file from GitHub (public repo — no token needed for read)
-    const getRes = await fetch('https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + cfg.path, {
+    const branchParam = cfg.branch ? '?ref=' + cfg.branch : '';
+    const getRes = await fetch('https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + cfg.path + branchParam, {
       headers: { 'Accept': 'application/vnd.github.v3+json' }
     });
     const getJson = await getRes.json();
