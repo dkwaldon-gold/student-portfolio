@@ -20,6 +20,42 @@
   --radius-sm: 8px;
   --shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
+/* ── Dark mode ── */
+body.dark {
+  --gray-bg: #0f0f0f;
+  --gray-border: #2a2a2a;
+  --gray-text: #9a9895;
+  --text: #f0efe8;
+  --white: #1a1a1a;
+  --shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+body.dark .topnav { background: #111; border-color: #222; }
+body.dark .profile-header { background: #111; border-color: #222; }
+body.dark .tab-bar { background: #111; border-color: #222; }
+body.dark .card, body.dark .side-card { background: #1a1a1a; border-color: #2a2a2a; }
+body.dark input, body.dark textarea, body.dark select { background:#111; color:#f0efe8; border-color:#333; }
+body.dark .course-chip { background:#252525; color:#ccc; }
+body.dark .chip { background:#252525; color:#ccc; }
+body.dark .chip.feat { background: var(--accent-light); color: var(--accent-dark); opacity:0.9; }
+body.dark .proj-card { background:#1f1f1f; border-color:#2a2a2a; }
+body.dark .gpa-bar { background:#2a2a2a; }
+body.dark .comp-bar { background:#2a2a2a; }
+body.dark .edit-overlay { background:rgba(0,0,0,0.85); }
+body.dark .edit-panel { background:#1a1a1a; }
+body.dark .es { border-color:#2a2a2a; }
+body.dark .ef { background:#111; color:#f0efe8; border-color:#333; }
+body.dark .exp-block, body.dark .proj-block { background:#111; border-color:#2a2a2a; }
+body.dark .entry { border-color:#2a2a2a; }
+body.dark .toggle-row { border-color:#2a2a2a; }
+body.dark .tab-btn { color:#9a9895; }
+body.dark .tab-btn.active { color:var(--accent); }
+body.dark .nav-link { color:#9a9895; }
+body.dark .btn { background:#252525; color:#f0efe8; border-color:#333; }
+
+/* ── Dark toggle button ── */
+#dark-toggle { background:none; border:1px solid var(--gray-border); border-radius:20px; padding:5px 12px; font-size:13px; cursor:pointer; color:var(--gray-text); transition:all 0.2s; }
+#dark-toggle:hover { border-color:var(--accent); color:var(--accent); }
+
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; background: var(--gray-bg); color: var(--text); font-size: 15px; line-height: 1.6; }
 a { color: var(--accent); text-decoration: none; }
 
@@ -392,6 +428,7 @@ a { color: var(--accent); text-decoration: none; }
     <span class="nav-link">Applications</span>
   </div>
   <div class="nav-actions">
+    <button id="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">☀︎</button>
     <button class="btn no-print" onclick="window.print()">Save as PDF</button>
     <button class="btn primary no-print" id="edit-btn" onclick="openEditMode()" style="display:none;">✏ Edit</button>
     <div class="nav-avatar" id="nav-avatar"></div>
@@ -552,6 +589,15 @@ a { color: var(--accent); text-decoration: none; }
       <div class="es-title">🎨 Appearance</div>
       <div class="ef-label">Theme</div>
       <div id="theme-picker" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;"></div>
+      <div class="ef-label">Page mode</div>
+      <div style="display:flex;gap:8px;margin-bottom:4px;">
+        <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;">
+          <input type="radio" name="page-mode" id="mode-light" value="light"> ☀︎ Light
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;">
+          <input type="radio" name="page-mode" id="mode-dark" value="dark"> ☽ Dark
+        </label>
+      </div>
     </div>
 
     <!-- PROFILE -->
@@ -679,12 +725,18 @@ a { color: var(--accent); text-decoration: none; }
 
 // ── Edit Mode ────────────────────────────────────────────────────────────────
 var THEMES_LIST = [
-  { id:'emerald', color:'#1D9E75', label:'Emerald' },
-  { id:'navy',    color:'#1B5FA8', label:'Navy'    },
-  { id:'purple',  color:'#6B46C1', label:'Purple'  },
-  { id:'gold',    color:'#B7791F', label:'Gold'    },
-  { id:'rose',    color:'#BE185D', label:'Rose'    },
-  { id:'slate',   color:'#475569', label:'Slate'   },
+  { id:'emerald', color:'#1D9E75', label:'Emerald'  },
+  { id:'navy',    color:'#1B5FA8', label:'Navy'     },
+  { id:'purple',  color:'#6B46C1', label:'Purple'   },
+  { id:'gold',    color:'#B7791F', label:'Gold'     },
+  { id:'rose',    color:'#BE185D', label:'Rose'     },
+  { id:'slate',   color:'#475569', label:'Slate'    },
+  { id:'coral',   color:'#E05252', label:'Coral'    },
+  { id:'teal',    color:'#0F766E', label:'Teal'     },
+  { id:'indigo',  color:'#4338CA', label:'Indigo'   },
+  { id:'forest',  color:'#15803D', label:'Forest'   },
+  { id:'sky',     color:'#0284C7', label:'Sky'      },
+  { id:'orange',  color:'#EA580C', label:'Orange'   },
 ];
 var THEMES = {
   emerald: { accent:'#1D9E75', light:'#ECFDF5', dark:'#065F46', mid:'#059669' },
@@ -693,7 +745,19 @@ var THEMES = {
   gold:    { accent:'#B7791F', light:'#FFFBEB', dark:'#78350F', mid:'#D97706' },
   rose:    { accent:'#BE185D', light:'#FFF1F2', dark:'#9D174D', mid:'#E11D48' },
   slate:   { accent:'#475569', light:'#F1F5F9', dark:'#1E293B', mid:'#64748B' },
+  coral:   { accent:'#E05252', light:'#FEF2F2', dark:'#991B1B', mid:'#DC2626' },
+  teal:    { accent:'#0F766E', light:'#F0FDFA', dark:'#134E4A', mid:'#0D9488' },
+  indigo:  { accent:'#4338CA', light:'#EEF2FF', dark:'#1E1B4B', mid:'#6366F1' },
+  forest:  { accent:'#15803D', light:'#F0FDF4', dark:'#14532D', mid:'#16A34A' },
+  sky:     { accent:'#0284C7', light:'#F0F9FF', dark:'#0C4A6E', mid:'#0EA5E9' },
+  orange:  { accent:'#EA580C', light:'#FFF7ED', dark:'#7C2D12', mid:'#F97316' },
 };
+function toggleDark() {
+  var isDark = document.body.classList.toggle('dark');
+  document.getElementById('dark-toggle').textContent = isDark ? '☽' : '☀︎';
+  localStorage.setItem('ep-dark', isDark ? '1' : '0');
+}
+
 var SECTION_LABELS = {
   about:'About', education:'Education', experience:'Experience',
   projects:'Projects', skills:'Skills', achievements:'Achievements',
@@ -719,6 +783,13 @@ function closeEditMode() {
 function populateForm() {
   const s = STUDENT; const a = s.appearance || {};
   editTheme = a.theme || 'purple';
+
+  // Page mode
+  var pageMode = a.pageBackground || 'light';
+  var modeLightEl = document.getElementById('mode-light');
+  var modeDarkEl  = document.getElementById('mode-dark');
+  if (modeLightEl) modeLightEl.checked = pageMode !== 'dark';
+  if (modeDarkEl)  modeDarkEl.checked  = pageMode === 'dark';
 
   // Theme picker
   const tp = document.getElementById('theme-picker');
@@ -870,6 +941,8 @@ function buildStudentObject() {
   const s = JSON.parse(JSON.stringify(STUDENT)); // deep copy
 
   s.appearance.theme = editTheme;
+  var darkRadio = document.getElementById('mode-dark');
+  s.appearance.pageBackground = (darkRadio && darkRadio.checked) ? 'dark' : 'light';
   s.name       = document.getElementById('e-name').value.trim();
   s.initials   = document.getElementById('e-initials').value.trim().toUpperCase();
   s.headline   = document.getElementById('e-headline').value.trim();
@@ -1050,6 +1123,17 @@ document.addEventListener('DOMContentLoaded', function() {
   st.textContent = `:root{--accent:${t.accent};--accent-light:${t.light};--accent-dark:${t.dark};--accent-mid:${t.mid};}`;
   if (a.font === 'serif') st.textContent += `body{font-family:Georgia,serif;}`;
   document.head.appendChild(st);
+
+  // Dark mode init — respect saved preference or profile setting
+  (function() {
+    var saved = localStorage.getItem('ep-dark');
+    var preferDark = saved !== null ? saved === '1' : (a.pageBackground === 'dark');
+    if (preferDark) {
+      document.body.classList.add('dark');
+      var btn = document.getElementById('dark-toggle');
+      if (btn) btn.textContent = '☽';
+    }
+  })();
 
   // Banner
   var banner = el('sc-banner');
