@@ -733,8 +733,7 @@ function populateForm() {
   // Academic
   document.getElementById('e-gpa-uw').value = s.gpa.unweighted;
   document.getElementById('e-gpa-w').value  = s.gpa.weighted;
-  document.getElementById('e-courses').value = (s.courses||[]).join('
-');
+  document.getElementById('e-courses').value = (s.courses||[]).join('\n');
 
   // Test scores
   const sl = document.getElementById('e-scores-list');
@@ -752,10 +751,8 @@ function populateForm() {
   (s.projects||[]).forEach(function(p) { addProj(p); });
 
   // Skills
-  document.getElementById('e-skills-feat').value  = (s.skills.featured||[]).join('
-');
-  document.getElementById('e-skills-other').value = (s.skills.other||[]).join('
-');
+  document.getElementById('e-skills-feat').value  = (s.skills.featured||[]).join('\n');
+  document.getElementById('e-skills-other').value = (s.skills.other||[]).join('\n');
 
   // Visibility
   const vl = document.getElementById('e-visibility-list');
@@ -797,8 +794,7 @@ function addExp(data) {
     + '<div class="ef-label">Organization</div><input class="ef exp-org" type="text" value="' + (data.org||'') + '" />'
     + '<div class="ef-label">Dates</div><input class="ef exp-dates" type="text" value="' + (data.dates||'') + '" placeholder="2023 – Present" />'
     + '<div class="ef-label">Bullet points (one per line)</div>'
-    + '<textarea class="ef exp-bullets" rows="3" style="resize:vertical;">' + (data.bullets||[]).join('
-') + '</textarea>';
+    + '<textarea class="ef exp-bullets" rows="3" style="resize:vertical;">' + (data.bullets||[]).join('\n') + '</textarea>';
   el2.appendChild(div);
 }
 
@@ -830,8 +826,7 @@ function buildStudentObject() {
 
   s.gpa.unweighted = parseFloat(document.getElementById('e-gpa-uw').value) || 0;
   s.gpa.weighted   = parseFloat(document.getElementById('e-gpa-w').value)  || 0;
-  s.courses = document.getElementById('e-courses').value.split('
-').map(function(x){return x.trim();}).filter(Boolean);
+  s.courses = document.getElementById('e-courses').value.split('\n').map(function(x){return x.trim();}).filter(Boolean);
 
   s.testScores = [];
   document.querySelectorAll('#e-scores-list .exp-block').forEach(function(b) {
@@ -850,8 +845,7 @@ function buildStudentObject() {
       dates:   b.querySelector('.exp-dates').value.trim(),
       icon:    '💼',
       iconBg:  '#FAEEDA',
-      bullets: b.querySelector('.exp-bullets').value.split('
-').map(function(x){return x.trim();}).filter(Boolean)
+      bullets: b.querySelector('.exp-bullets').value.split('\n').map(function(x){return x.trim();}).filter(Boolean)
     });
   });
 
@@ -867,10 +861,8 @@ function buildStudentObject() {
     });
   });
 
-  s.skills.featured = document.getElementById('e-skills-feat').value.split('
-').map(function(x){return x.trim();}).filter(Boolean);
-  s.skills.other    = document.getElementById('e-skills-other').value.split('
-').map(function(x){return x.trim();}).filter(Boolean);
+  s.skills.featured = document.getElementById('e-skills-feat').value.split('\n').map(function(x){return x.trim();}).filter(Boolean);
+  s.skills.other    = document.getElementById('e-skills-other').value.split('\n').map(function(x){return x.trim();}).filter(Boolean);
 
   s.sections = {};
   Object.keys(SECTION_LABELS).forEach(function(key) {
