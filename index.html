@@ -650,9 +650,19 @@ a { color: var(--accent); text-decoration: none; }
 .theme-dot.active { border-color:#1a1a18; transform:scale(1.15); }
 </style>
 
+
+
+
+
+
+
+
+
 <script>
+// ── Edit Mode + Render + Tabs (consolidated) ──
+
 // ── Edit Mode ────────────────────────────────────────────────────────────────
-const THEMES_LIST = [
+var THEMES_LIST = [
   { id:'emerald', color:'#1D9E75', label:'Emerald' },
   { id:'navy',    color:'#1B5FA8', label:'Navy'    },
   { id:'purple',  color:'#6B46C1', label:'Purple'  },
@@ -660,7 +670,7 @@ const THEMES_LIST = [
   { id:'rose',    color:'#BE185D', label:'Rose'    },
   { id:'slate',   color:'#475569', label:'Slate'   },
 ];
-const THEMES = {
+var THEMES = {
   emerald: { accent:'#1D9E75', light:'#ECFDF5', dark:'#065F46', mid:'#059669' },
   navy:    { accent:'#1B5FA8', light:'#EFF6FF', dark:'#1E3A5F', mid:'#2563EB' },
   purple:  { accent:'#6B46C1', light:'#EDE9FE', dark:'#4C1D95', mid:'#7C3AED' },
@@ -668,14 +678,14 @@ const THEMES = {
   rose:    { accent:'#BE185D', light:'#FFF1F2', dark:'#9D174D', mid:'#E11D48' },
   slate:   { accent:'#475569', light:'#F1F5F9', dark:'#1E293B', mid:'#64748B' },
 };
-const SECTION_LABELS = {
+var SECTION_LABELS = {
   about:'About', education:'Education', experience:'Experience',
   projects:'Projects', skills:'Skills', achievements:'Achievements',
   recommendations:'Recommendations', collegeTargets:'College Targets',
   profileStrength:'Profile Strength',
 };
 
-let editTheme = '';
+var editTheme = '';
 
 function openEditMode() {
   const pw = prompt('Enter edit password:');
@@ -937,11 +947,9 @@ async function saveProfile() {
 window.addEventListener('load', function() {
   document.getElementById('edit-btn').style.display = '';
 });
-</script>
 
 
 
-<script>
 document.addEventListener('DOMContentLoaded', function() {
   try {
   var THEMES = {
@@ -1120,9 +1128,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.appendChild(dbg);
     console.error('EduProfile render error:', err);
   }
-});</script>
+});
 
-<script>
+
 function showTab(id, btn) {
   document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
   document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
@@ -1135,6 +1143,5 @@ window.addEventListener('load', function() {
   if (eb) eb.style.display = '';
 });
 </script>
-
 </body>
 </html>
