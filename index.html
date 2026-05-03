@@ -574,6 +574,20 @@ a { color: var(--accent); text-decoration: none; }
       <textarea class="ef" id="e-skills-other" rows="4" style="resize:vertical;"></textarea>
     </div>
 
+    <!-- ACHIEVEMENTS -->
+    <div class="es">
+      <div class="es-title">🏅 Achievements & Honors</div>
+      <div id="e-achieve-list"></div>
+      <button onclick="addAchievement()" class="add-btn">+ Add achievement</button>
+    </div>
+
+    <!-- COLLEGE TARGETS -->
+    <div class="es">
+      <div class="es-title">🎓 College Targets</div>
+      <div id="e-college-list"></div>
+      <button onclick="addCollegeTarget()" class="add-btn">+ Add college</button>
+    </div>
+
     <!-- VISIBILITY -->
     <div class="es">
       <div class="es-title">👁 Section visibility</div>
@@ -708,6 +722,16 @@ function populateForm() {
   pl.innerHTML = '';
   (s.projects||[]).forEach(function(p) { addProj(p); });
 
+  // Achievements
+  var al2 = document.getElementById('e-achieve-list');
+  al2.innerHTML = '';
+  (s.achievements||[]).forEach(function(a) { addAchievement(a); });
+
+  // College targets
+  var cl2 = document.getElementById('e-college-list');
+  cl2.innerHTML = '';
+  (s.collegeTargets||[]).forEach(function(ct) { addCollegeTarget(ct); });
+
   // Skills
   document.getElementById('e-skills-feat').value  = (s.skills.featured||[]).join('\n');
   document.getElementById('e-skills-other').value = (s.skills.other||[]).join('\n');
@@ -769,6 +793,33 @@ function addProj(data) {
   pl.appendChild(div);
 }
 
+function addAchievement(data) {
+  data = data || {};
+  var al = document.getElementById('e-achieve-list');
+  var div = document.createElement('div');
+  div.className = 'exp-block';
+  div.innerHTML = '<button class="remove-btn" onclick="this.parentNode.remove()">✕</button>'
+    + '<div class="ef-label">Award / Honor</div><input class="ef ach-title" type="text" value="' + (data.title||'') + '" placeholder="Honor Roll, State Champion..." />'
+    + '<div class="ef-label">Organization</div><input class="ef ach-org" type="text" value="' + (data.org||'') + '" placeholder="School, State, National..." />'
+    + '<div class="ef-label">Date</div><input class="ef ach-date" type="text" value="' + (data.date||'') + '" placeholder="2024" />';
+  al.appendChild(div);
+}
+
+function addCollegeTarget(data) {
+  data = data || {};
+  var cl = document.getElementById('e-college-list');
+  var div = document.createElement('div');
+  div.className = 'exp-block';
+  var reachSel   = data.type === 'reach'  ? 'selected' : '';
+  var matchSel   = data.type === 'match'  ? 'selected' : '';
+  var safetySel  = data.type === 'safety' ? 'selected' : '';
+  div.innerHTML = '<button class="remove-btn" onclick="this.parentNode.remove()">✕</button>'
+    + '<div class="ef-label">College / University</div><input class="ef col-school" type="text" value="' + (data.school||'') + '" placeholder="Georgetown University..." />'
+    + '<div class="ef-label">Type</div>'
+    + '<select class="ef col-type"><option value="reach" ' + reachSel + '>Reach</option><option value="match" ' + matchSel + '>Match</option><option value="safety" ' + safetySel + '>Safety</option></select>';
+  cl.appendChild(div);
+}
+
 function buildStudentObject() {
   const s = JSON.parse(JSON.stringify(STUDENT)); // deep copy
 
@@ -820,6 +871,27 @@ function buildStudentObject() {
       iconBg: '#EEEDFE',
       tags:   b.querySelector('.proj-tags').value.split(',').map(function(x){return x.trim();}).filter(Boolean),
       link:   b.querySelector('.proj-link').value.trim()
+    });
+  });
+
+  s.achievements = [];
+  document.querySelectorAll('#e-achieve-list .exp-block').forEach(function(b) {
+    var title = b.querySelector('.ach-title').value.trim();
+    if (title) s.achievements.push({
+      title:  title,
+      org:    b.querySelector('.ach-org').value.trim(),
+      date:   b.querySelector('.ach-date').value.trim(),
+      icon:   '🏅',
+      iconBg: '#FAEEDA'
+    });
+  });
+
+  s.collegeTargets = [];
+  document.querySelectorAll('#e-college-list .exp-block').forEach(function(b) {
+    var school = b.querySelector('.col-school').value.trim();
+    if (school) s.collegeTargets.push({
+      school: school,
+      type:   b.querySelector('.col-type').value
     });
   });
 
