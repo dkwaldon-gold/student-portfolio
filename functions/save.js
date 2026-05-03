@@ -14,7 +14,7 @@ export async function onRequestPost(context) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: cors });
   }
 
-  const { owner, repo, path, content, sha } = body;
+  const { owner, repo, path, content, sha, branch } = body;
   if (!owner || !repo || !path || !content || !sha) {
     return new Response(JSON.stringify({ error: 'Missing fields' }), { status: 400, headers: cors });
   }
@@ -27,7 +27,7 @@ export async function onRequestPost(context) {
       'Content-Type': 'application/json',
       'User-Agent': 'EduProfile-Pages-Function',
     },
-    body: JSON.stringify({ message: 'Profile updated via edit mode', content, sha }),
+    body: JSON.stringify({ message: 'Profile updated via edit mode', content, sha, branch: branch || undefined }),
   });
 
   const ghJson = await ghRes.json();
