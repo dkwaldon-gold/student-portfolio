@@ -173,66 +173,39 @@ a { color: var(--accent); text-decoration: none; }
 
   // __STUDENT_START__
   const STUDENT = {
-    name: "Dena W.",
-    initials: "DW",
-    headline: "Student · Design, Strategy & Theater",
-    school: "Westlake High School",
-    classYear: "Class of 2027",
-    location: "DMV Area",
-    email: "",             // left blank intentionally — minor privacy
-    linkedin: "",
-    website: "",
-
-    // ── APPEARANCE ─────────────────────────────────────────
-    // Change how the profile looks — no CSS knowledge needed.
-    appearance: {
-
-      // THEME: pick one → emerald | navy | purple | gold | rose | slate | custom
-      theme: "purple",
-
-      // CUSTOM COLORS: only used when theme is "custom"
-      custom: {
-        accent: "#1D9E75",
-        light:  "#E1F5EE",
-        dark:   "#085041",
-        mid:    "#0F6E56",
+    "name": "Dena W.",
+    "initials": "DW",
+    "headline": "Student · Design, Strategy & Theater",
+    "school": "Westlake High School",
+    "classYear": "Class of 2027",
+    "location": "DMV Area",
+    "email": "",
+    "linkedin": "",
+    "website": "",
+    "appearance": {
+      "theme": "purple",
+      "custom": {
+        "accent": "#1D9E75",
+        "light": "#E1F5EE",
+        "dark": "#085041",
+        "mid": "#0F6E56"
       },
-
-      // FONT: default | serif | rounded
-      font: "default",
-
-      // PROFILE PHOTO: paste a URL to an image — leave empty for initials
-      profilePhoto: "",
-
-      // BANNER: type → "gradient" | "solid" | "image"
-      banner: {
-        type: "gradient",
-        imageUrl: "",
+      "font": "default",
+      "profilePhoto": "",
+      "banner": {
+        "type": "gradient",
+        "imageUrl": ""
       },
-
-      // PAGE BACKGROUND: "light" | "white" | "dark"
-      pageBackground: "light",
+      "pageBackground": "light"
     },
-    // ────────────────────────────────────────────────────────
-
-    about: `I'm a junior with a focus on design, creative production, and business strategy. I've led costume design for school theater productions and contribute to real client work through a consulting practice — building presentations, brand materials, and research deliverables. I'm detail-oriented, a fast learner, and I take ownership of everything I touch.`,
-
-    gpa: {
-      unweighted: 3.8,
-      weighted: 4.3,
-      scale: 4.0
+    "about": "I'm a junior with a focus on design, creative production, and business strategy. I've led costume design for school theater productions and contribute to real client work through a consulting practice — building presentations, brand materials, and research deliverables. I'm detail-oriented, a fast learner, and I take ownership of everything I touch.",
+    "gpa": {
+      "unweighted": 3.8,
+      "weighted": 4.3,
+      "scale": 4
     },
-
-    // ── TEST SCORES ────────────────────────────────────────────────────────
-    // Add scores here — leave the array empty [] to hide this section.
-    // type options: SAT | ACT | PSAT | AP | IB | other
-    testScores: [
-      // { type: "SAT", score: "1280", date: "March 2025" },
-      // { type: "ACT", score: "28",   date: "June 2025"  },
-    ],
-    // ────────────────────────────────────────────────────────────────────────
-
-    courses: [
+    "testScores": [],
+    "courses": [
       "AP English Language",
       "AP US History",
       "Honors Precalculus",
@@ -241,15 +214,14 @@ a { color: var(--accent); text-decoration: none; }
       "Spanish III",
       "Theater Arts"
     ],
-
-    experience: [
+    "experience": [
       {
-        title: "Junior Design & Strategy Consultant",
-        org: "Consulting Practice",
-        dates: "2023 – Present",
-        icon: "💼",
-        iconBg: "#FAEEDA",
-        bullets: [
+        "title": "Junior Design & Strategy Consultant",
+        "org": "Consulting Practice",
+        "dates": "2023 – Present",
+        "icon": "💼",
+        "iconBg": "#FAEEDA",
+        "bullets": [
           "Designed brand assets, presentations, and marketing materials for client projects",
           "Contributed to strategy sessions and business research for consulting engagements",
           "Developed skills in client communication, project scoping, and professional design tools",
@@ -257,12 +229,12 @@ a { color: var(--accent); text-decoration: none; }
         ]
       },
       {
-        title: "Costume Director",
-        org: "Westlake High School Theater",
-        dates: "2024",
-        icon: "🎭",
-        iconBg: "#FBEAF0",
-        bullets: [
+        "title": "Costume Director",
+        "org": "Westlake High School Theater",
+        "dates": "2024",
+        "icon": "💼",
+        "iconBg": "#FAEEDA",
+        "bullets": [
           "Led all costume design and sourcing for a full cast theatrical production",
           "Managed costume budget, inventory, and fittings across the full rehearsal and performance schedule",
           "Collaborated with director and stage crew to align costume vision with staging and character arcs",
@@ -270,118 +242,157 @@ a { color: var(--accent); text-decoration: none; }
         ]
       },
       {
-        title: "Assistant Costume Director",
-        org: "Westlake High School Theater",
-        dates: "2023",
-        icon: "🎭",
-        iconBg: "#FBEAF0",
-        bullets: [
+        "title": "Assistant Costume Director",
+        "org": "Westlake High School Theater",
+        "dates": "2023",
+        "icon": "💼",
+        "iconBg": "#FAEEDA",
+        "bullets": [
           "Assisted lead costume director in design planning, sourcing, and garment alterations",
           "Supported wardrobe changes backstage during live performances",
           "Organized and labeled costume inventory for the full cast"
         ]
       },
       {
-        title: "Assistant Costume Director",
-        org: "Westlake High School Theater",
-        dates: "2022",
-        icon: "🎭",
-        iconBg: "#FBEAF0",
-        bullets: [
+        "title": "Assistant Costume Director",
+        "org": "Westlake High School Theater",
+        "dates": "2022",
+        "icon": "💼",
+        "iconBg": "#FAEEDA",
+        "bullets": [
           "Contributed to costume sourcing and preparation for school theatrical production",
           "Gained hands-on experience in wardrobe management, alterations, and production coordination"
         ]
       }
     ],
-
-    projects: [
+    "projects": [
       {
-        title: "Brand Identity System",
-        desc: "Developed a full visual identity for a small business client — logo, color palette, typography, and usage guidelines.",
-        icon: "🎨",
-        iconBg: "#FAEEDA",
-        tags: ["Branding", "Canva", "Design"],
-        link: ""   // paste a Google Drive / Canva / Behance URL here
+        "title": "Brand Identity System",
+        "desc": "Developed a full visual identity for a small business client — logo, color palette, typography, and usage guidelines.",
+        "icon": "📁",
+        "iconBg": "#EEEDFE",
+        "tags": [
+          "Branding",
+          "Canva",
+          "Design"
+        ],
+        "link": ""
       },
       {
-        title: "Client Pitch Deck",
-        desc: "Built a 15-slide strategy presentation for a consulting proposal, focused on narrative structure and visual hierarchy.",
-        icon: "📊",
-        iconBg: "#E1F5EE",
-        tags: ["Strategy", "Presentations", "Copywriting"],
-        link: ""
+        "title": "Client Pitch Deck",
+        "desc": "Built a 15-slide strategy presentation for a consulting proposal, focused on narrative structure and visual hierarchy.",
+        "icon": "📁",
+        "iconBg": "#EEEDFE",
+        "tags": [
+          "Strategy",
+          "Presentations",
+          "Copywriting"
+        ],
+        "link": ""
       },
       {
-        title: "Competitive Market Research",
-        desc: "Conducted sector research and summarized competitive findings for a client in the retail industry.",
-        icon: "🔍",
-        iconBg: "#E6F1FB",
-        tags: ["Research", "Analysis", "Writing"],
-        link: ""
+        "title": "Competitive Market Research",
+        "desc": "Conducted sector research and summarized competitive findings for a client in the retail industry.",
+        "icon": "📁",
+        "iconBg": "#EEEDFE",
+        "tags": [
+          "Research",
+          "Analysis",
+          "Writing"
+        ],
+        "link": ""
       },
       {
-        title: "Social Media Content System",
-        desc: "Designed a repeatable template system for a client's Instagram and LinkedIn presence.",
-        icon: "📱",
-        iconBg: "#EEEDFE",
-        tags: ["Social Media", "Design", "Content"],
-        link: ""
+        "title": "Social Media Content System",
+        "desc": "Designed a repeatable template system for a client's Instagram and LinkedIn presence.",
+        "icon": "📁",
+        "iconBg": "#EEEDFE",
+        "tags": [
+          "Social Media",
+          "Design",
+          "Content"
+        ],
+        "link": ""
       }
     ],
-
-    skills: {
-      featured: ["Canva", "Design Thinking", "Brand Strategy", "Research & Analysis", "Presentation Design", "Costume Design", "Production Management"],
-      other: ["Google Docs / Slides", "Microsoft Office", "Copywriting", "Project Management", "Spanish", "Critical Thinking", "Communication"]
+    "skills": {
+      "featured": [
+        "Canva",
+        "Design Thinking",
+        "Brand Strategy",
+        "Research & Analysis",
+        "Presentation Design",
+        "Costume Design",
+        "Production Management"
+      ],
+      "other": [
+        "Google Docs / Slides",
+        "Microsoft Office",
+        "Copywriting",
+        "Project Management",
+        "Spanish",
+        "Critical Thinking",
+        "Communication"
+      ]
     },
-
-    achievements: [
+    "achievements": [
       {
-        title: "Honor Roll",
-        org: "Your High School",
-        date: "2023, 2024",
-        icon: "🏅",
-        iconBg: "#FAEEDA"
-      }
-      // Add more achievements here
-    ],
-
-    recommendations: [
-      {
-        initials: "DW",
-        name: "Dena Waldon",
-        role: "Principal, Waldon Consulting Group",
-        text: "She brings a level of professionalism and creative thinking to every project that I rarely see in someone her age. Her design instincts are strong, and she knows how to take feedback and improve quickly."
+        "title": "Honor Roll",
+        "org": "Your High School",
+        "date": "2023, 2024",
+        "icon": "🏅",
+        "iconBg": "#FAEEDA"
       }
     ],
-
-    collegeTargets: [
-      { school: "Georgetown University", type: "reach" },
-      { school: "University of Maryland", type: "match" },
-      { school: "Howard University", type: "match" },
-      { school: "Spelman College", type: "match" },
-      { school: "Morgan State University", type: "safety" }
+    "recommendations": [
+      {
+        "initials": "DW",
+        "name": "Dena Waldon",
+        "role": "Principal, Waldon Consulting Group",
+        "text": "She brings a level of professionalism and creative thinking to every project that I rarely see in someone her age. Her design instincts are strong, and she knows how to take feedback and improve quickly."
+      }
     ],
-
-    completeness: {
-      pct: 70,
-      todos: ["Add SAT/ACT scores", "Upload portfolio samples", "Add community involvement"]
+    "collegeTargets": [
+      {
+        "school": "Georgetown University",
+        "type": "reach"
+      },
+      {
+        "school": "University of Maryland",
+        "type": "match"
+      },
+      {
+        "school": "Howard University",
+        "type": "match"
+      },
+      {
+        "school": "Spelman College",
+        "type": "match"
+      },
+      {
+        "school": "Morgan State University",
+        "type": "safety"
+      }
+    ],
+    "completeness": {
+      "pct": 70,
+      "todos": [
+        "Add SAT/ACT scores",
+        "Upload portfolio samples",
+        "Add community involvement"
+      ]
     },
-
-    // ── SECTION VISIBILITY ─────────────────────────────────────────────────
-    // Set any section to false to hide it from the public profile.
-    // Everything is visible by default except collegeTargets and profileStrength.
-    sections: {
-      about:           true,
-      education:       true,
-      experience:      true,
-      projects:        true,
-      skills:          true,
-      achievements:    true,
-      recommendations: true,
-      collegeTargets:  false,   // ← flip to true to show college targets
-      profileStrength: true,    // internal planning tool — hide from public
+    "sections": {
+      "about": true,
+      "education": true,
+      "experience": true,
+      "projects": true,
+      "skills": true,
+      "achievements": true,
+      "recommendations": true,
+      "collegeTargets": false,
+      "profileStrength": true
     }
-    // ────────────────────────────────────────────────────────────────────────
   };
   // __STUDENT_END__
 </script>
