@@ -7,7 +7,7 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --accent: #2B6CB0;
+  --accent: #6B46C1;
   --accent-light: #EEEDFE;
   --accent-dark: #2D1A6E;
   --accent-mid: #553698;
@@ -40,7 +40,7 @@ a { color: var(--accent); text-decoration: none; }
 
 /* ── App layout ── */
 .profile-header { background: var(--white); border-bottom: 1px solid var(--gray-border); }
-.profile-banner-full { height: 140px; background: linear-gradient(120deg, var(--accent-mid, #4299E1), var(--accent)); }
+.profile-banner-full { height: 140px; background: linear-gradient(120deg, var(--accent-mid, #7C3AED), var(--accent)); }
 .profile-header-body { max-width: 1100px; margin: 0 auto; padding: 0 24px 20px; display: flex; align-items: flex-end; gap: 20px; }
 .ph-avatar-wrap { margin-top: -60px; flex-shrink: 0; }
 .ph-avatar { width: 120px; height: 120px; border-radius: 50%; border: 5px solid var(--white); background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-size: 42px; font-weight: 700; color: var(--accent-dark); overflow: hidden; }
@@ -83,7 +83,7 @@ a { color: var(--accent); text-decoration: none; }
 /* ── Skills chips ── */
 .skills-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip { font-size: 11px; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--gray-border); color: var(--gray-text); background: #fafaf8; }
-.chip.feat { background: var(--accent-light); border-color: #90CDF4; color: var(--accent-dark); font-weight: 500; }
+.chip.feat { background: var(--accent-light); border-color: #AFA9EC; color: var(--accent-dark); font-weight: 500; }
 
 /* ── Target rows ── */
 .target-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; padding: 5px 0; border-bottom: 1px solid #f0ede8; }
@@ -192,39 +192,66 @@ a { color: var(--accent); text-decoration: none; }
 
   // __STUDENT_START__
   const STUDENT = {
-    "name": "Dena W.",
-    "initials": "DW",
-    "headline": "Student · Design, Strategy & Theater",
-    "school": "Westlake High School",
-    "classYear": "Class of 2027",
-    "location": "DMV Area",
-    "email": "",
-    "linkedin": "",
-    "website": "",
-    "appearance": {
-      "theme": "slate",
-      "custom": {
-        "accent": "#1D9E75",
-        "light": "#E1F5EE",
-        "dark": "#085041",
-        "mid": "#0F6E56"
+    name: "Dena W.",
+    initials: "DW",
+    headline: "Student · Design, Strategy & Theater",
+    school: "Westlake High School",
+    classYear: "Class of 2027",
+    location: "DMV Area",
+    email: "",             // left blank intentionally — minor privacy
+    linkedin: "",
+    website: "",
+
+    // ── APPEARANCE ─────────────────────────────────────────
+    // Change how the profile looks — no CSS knowledge needed.
+    appearance: {
+
+      // THEME: pick one → emerald | navy | purple | gold | rose | slate | custom
+      theme: "purple",
+
+      // CUSTOM COLORS: only used when theme is "custom"
+      custom: {
+        accent: "#1D9E75",
+        light:  "#E1F5EE",
+        dark:   "#085041",
+        mid:    "#0F6E56",
       },
-      "font": "default",
-      "profilePhoto": "",
-      "banner": {
-        "type": "gradient",
-        "imageUrl": ""
+
+      // FONT: default | serif | rounded
+      font: "default",
+
+      // PROFILE PHOTO: paste a URL to an image — leave empty for initials
+      profilePhoto: "",
+
+      // BANNER: type → "gradient" | "solid" | "image"
+      banner: {
+        type: "gradient",
+        imageUrl: "",
       },
-      "pageBackground": "light"
+
+      // PAGE BACKGROUND: "light" | "white" | "dark"
+      pageBackground: "light",
     },
-    "about": "I'm a junior with a focus on design, creative production, and business strategy. I've led costume design for school theater productions and contribute to real client work through a consulting practice — building presentations, brand materials, and research deliverables. I'm detail-oriented, a fast learner, and I take ownership of everything I touch.",
-    "gpa": {
-      "unweighted": 3.8,
-      "weighted": 4.3,
-      "scale": 4
+    // ────────────────────────────────────────────────────────
+
+    about: `I'm a junior with a focus on design, creative production, and business strategy. I've led costume design for school theater productions and contribute to real client work through a consulting practice — building presentations, brand materials, and research deliverables. I'm detail-oriented, a fast learner, and I take ownership of everything I touch.`,
+
+    gpa: {
+      unweighted: 3.8,
+      weighted: 4.3,
+      scale: 4.0
     },
-    "testScores": [],
-    "courses": [
+
+    // ── TEST SCORES ────────────────────────────────────────────────────────
+    // Add scores here — leave the array empty [] to hide this section.
+    // type options: SAT | ACT | PSAT | AP | IB | other
+    testScores: [
+      // { type: "SAT", score: "1280", date: "March 2025" },
+      // { type: "ACT", score: "28",   date: "June 2025"  },
+    ],
+    // ────────────────────────────────────────────────────────────────────────
+
+    courses: [
       "AP English Language",
       "AP US History",
       "Honors Precalculus",
@@ -233,14 +260,15 @@ a { color: var(--accent); text-decoration: none; }
       "Spanish III",
       "Theater Arts"
     ],
-    "experience": [
+
+    experience: [
       {
-        "title": "Junior Design & Strategy Consultant",
-        "org": "Consulting Practice",
-        "dates": "2023 – Present",
-        "icon": "💼",
-        "iconBg": "#FAEEDA",
-        "bullets": [
+        title: "Junior Design & Strategy Consultant",
+        org: "Consulting Practice",
+        dates: "2023 – Present",
+        icon: "💼",
+        iconBg: "#FAEEDA",
+        bullets: [
           "Designed brand assets, presentations, and marketing materials for client projects",
           "Contributed to strategy sessions and business research for consulting engagements",
           "Developed skills in client communication, project scoping, and professional design tools",
@@ -248,12 +276,12 @@ a { color: var(--accent); text-decoration: none; }
         ]
       },
       {
-        "title": "Costume Director",
-        "org": "Westlake High School Theater",
-        "dates": "2024",
-        "icon": "💼",
-        "iconBg": "#FAEEDA",
-        "bullets": [
+        title: "Costume Director",
+        org: "Westlake High School Theater",
+        dates: "2024",
+        icon: "🎭",
+        iconBg: "#FBEAF0",
+        bullets: [
           "Led all costume design and sourcing for a full cast theatrical production",
           "Managed costume budget, inventory, and fittings across the full rehearsal and performance schedule",
           "Collaborated with director and stage crew to align costume vision with staging and character arcs",
@@ -261,157 +289,118 @@ a { color: var(--accent); text-decoration: none; }
         ]
       },
       {
-        "title": "Assistant Costume Director",
-        "org": "Westlake High School Theater",
-        "dates": "2023",
-        "icon": "💼",
-        "iconBg": "#FAEEDA",
-        "bullets": [
+        title: "Assistant Costume Director",
+        org: "Westlake High School Theater",
+        dates: "2023",
+        icon: "🎭",
+        iconBg: "#FBEAF0",
+        bullets: [
           "Assisted lead costume director in design planning, sourcing, and garment alterations",
           "Supported wardrobe changes backstage during live performances",
           "Organized and labeled costume inventory for the full cast"
         ]
       },
       {
-        "title": "Assistant Costume Director",
-        "org": "Westlake High School Theater",
-        "dates": "2022",
-        "icon": "💼",
-        "iconBg": "#FAEEDA",
-        "bullets": [
+        title: "Assistant Costume Director",
+        org: "Westlake High School Theater",
+        dates: "2022",
+        icon: "🎭",
+        iconBg: "#FBEAF0",
+        bullets: [
           "Contributed to costume sourcing and preparation for school theatrical production",
           "Gained hands-on experience in wardrobe management, alterations, and production coordination"
         ]
       }
     ],
-    "projects": [
+
+    projects: [
       {
-        "title": "Brand Identity System",
-        "desc": "Developed a full visual identity for a small business client — logo, color palette, typography, and usage guidelines.",
-        "icon": "📁",
-        "iconBg": "#EEEDFE",
-        "tags": [
-          "Branding",
-          "Canva",
-          "Design"
-        ],
-        "link": ""
+        title: "Brand Identity System",
+        desc: "Developed a full visual identity for a small business client — logo, color palette, typography, and usage guidelines.",
+        icon: "🎨",
+        iconBg: "#FAEEDA",
+        tags: ["Branding", "Canva", "Design"],
+        link: ""   // paste a Google Drive / Canva / Behance URL here
       },
       {
-        "title": "Client Pitch Deck",
-        "desc": "Built a 15-slide strategy presentation for a consulting proposal, focused on narrative structure and visual hierarchy.",
-        "icon": "📁",
-        "iconBg": "#EEEDFE",
-        "tags": [
-          "Strategy",
-          "Presentations",
-          "Copywriting"
-        ],
-        "link": ""
+        title: "Client Pitch Deck",
+        desc: "Built a 15-slide strategy presentation for a consulting proposal, focused on narrative structure and visual hierarchy.",
+        icon: "📊",
+        iconBg: "#E1F5EE",
+        tags: ["Strategy", "Presentations", "Copywriting"],
+        link: ""
       },
       {
-        "title": "Competitive Market Research",
-        "desc": "Conducted sector research and summarized competitive findings for a client in the retail industry.",
-        "icon": "📁",
-        "iconBg": "#EEEDFE",
-        "tags": [
-          "Research",
-          "Analysis",
-          "Writing"
-        ],
-        "link": ""
+        title: "Competitive Market Research",
+        desc: "Conducted sector research and summarized competitive findings for a client in the retail industry.",
+        icon: "🔍",
+        iconBg: "#E6F1FB",
+        tags: ["Research", "Analysis", "Writing"],
+        link: ""
       },
       {
-        "title": "Social Media Content System",
-        "desc": "Designed a repeatable template system for a client's Instagram and LinkedIn presence.",
-        "icon": "📁",
-        "iconBg": "#EEEDFE",
-        "tags": [
-          "Social Media",
-          "Design",
-          "Content"
-        ],
-        "link": ""
+        title: "Social Media Content System",
+        desc: "Designed a repeatable template system for a client's Instagram and LinkedIn presence.",
+        icon: "📱",
+        iconBg: "#EEEDFE",
+        tags: ["Social Media", "Design", "Content"],
+        link: ""
       }
     ],
-    "skills": {
-      "featured": [
-        "Canva",
-        "Design Thinking",
-        "Brand Strategy",
-        "Research & Analysis",
-        "Presentation Design",
-        "Costume Design",
-        "Production Management"
-      ],
-      "other": [
-        "Google Docs / Slides",
-        "Microsoft Office",
-        "Copywriting",
-        "Project Management",
-        "Spanish",
-        "Critical Thinking",
-        "Communication"
-      ]
+
+    skills: {
+      featured: ["Canva", "Design Thinking", "Brand Strategy", "Research & Analysis", "Presentation Design", "Costume Design", "Production Management"],
+      other: ["Google Docs / Slides", "Microsoft Office", "Copywriting", "Project Management", "Spanish", "Critical Thinking", "Communication"]
     },
-    "achievements": [
+
+    achievements: [
       {
-        "title": "Honor Roll",
-        "org": "Your High School",
-        "date": "2023, 2024",
-        "icon": "🏅",
-        "iconBg": "#FAEEDA"
+        title: "Honor Roll",
+        org: "Your High School",
+        date: "2023, 2024",
+        icon: "🏅",
+        iconBg: "#FAEEDA"
+      }
+      // Add more achievements here
+    ],
+
+    recommendations: [
+      {
+        initials: "DW",
+        name: "Dena Waldon",
+        role: "Principal, Waldon Consulting Group",
+        text: "She brings a level of professionalism and creative thinking to every project that I rarely see in someone her age. Her design instincts are strong, and she knows how to take feedback and improve quickly."
       }
     ],
-    "recommendations": [
-      {
-        "initials": "DW",
-        "name": "Dena Waldon",
-        "role": "Principal, Waldon Consulting Group",
-        "text": "She brings a level of professionalism and creative thinking to every project that I rarely see in someone her age. Her design instincts are strong, and she knows how to take feedback and improve quickly."
-      }
+
+    collegeTargets: [
+      { school: "Georgetown University", type: "reach" },
+      { school: "University of Maryland", type: "match" },
+      { school: "Howard University", type: "match" },
+      { school: "Spelman College", type: "match" },
+      { school: "Morgan State University", type: "safety" }
     ],
-    "collegeTargets": [
-      {
-        "school": "Georgetown University",
-        "type": "reach"
-      },
-      {
-        "school": "University of Maryland",
-        "type": "match"
-      },
-      {
-        "school": "Howard University",
-        "type": "match"
-      },
-      {
-        "school": "Spelman College",
-        "type": "match"
-      },
-      {
-        "school": "Morgan State University",
-        "type": "safety"
-      }
-    ],
-    "completeness": {
-      "pct": 70,
-      "todos": [
-        "Add SAT/ACT scores",
-        "Upload portfolio samples",
-        "Add community involvement"
-      ]
+
+    completeness: {
+      pct: 70,
+      todos: ["Add SAT/ACT scores", "Upload portfolio samples", "Add community involvement"]
     },
-    "sections": {
-      "about": true,
-      "education": true,
-      "experience": true,
-      "projects": true,
-      "skills": true,
-      "achievements": true,
-      "recommendations": true,
-      "collegeTargets": false,
-      "profileStrength": true
+
+    // ── SECTION VISIBILITY ─────────────────────────────────────────────────
+    // Set any section to false to hide it from the public profile.
+    // Everything is visible by default except collegeTargets and profileStrength.
+    sections: {
+      about:           true,
+      education:       true,
+      experience:      true,
+      projects:        true,
+      skills:          true,
+      achievements:    true,
+      recommendations: true,
+      collegeTargets:  false,   // ← flip to true to show college targets
+      profileStrength: true,    // internal planning tool — hide from public
     }
+    // ────────────────────────────────────────────────────────────────────────
   };
   // __STUDENT_END__
 </script>
@@ -575,7 +564,7 @@ a { color: var(--accent); text-decoration: none; }
     <span style="font-weight:700;font-size:16px;">Edit Profile</span>
     <div style="display:flex;gap:8px;">
       <button onclick="closeEditMode()" style="padding:6px 14px;border-radius:20px;border:1px solid #D3D1C7;background:#fff;cursor:pointer;font-size:13px;">Cancel</button>
-      <button onclick="saveProfile()" id="save-btn" style="padding:6px 16px;border-radius:20px;border:none;background:#2B6CB0;color:#fff;cursor:pointer;font-size:13px;font-weight:600;">Save & Deploy</button>
+      <button onclick="saveProfile()" id="save-btn" style="padding:6px 16px;border-radius:20px;border:none;background:#6B46C1;color:#fff;cursor:pointer;font-size:13px;font-weight:600;">Save & Deploy</button>
     </div>
   </div>
   <div id="save-status" style="display:none;padding:10px 20px;background:#E1F5EE;color:#085041;font-size:13px;font-weight:500;"></div>
@@ -669,8 +658,8 @@ a { color: var(--accent); text-decoration: none; }
 .es-title { font-weight:700; font-size:13px; margin-bottom:12px; color:#1a1a18; }
 .ef-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:#5F5E5A; margin-bottom:4px; margin-top:10px; }
 .ef { width:100%; padding:8px 10px; border:1px solid #D3D1C7; border-radius:8px; font-size:13px; font-family:inherit; color:#1a1a18; background:#fafaf8; outline:none; }
-.ef:focus { border-color:#2B6CB0; }
-.add-btn { margin-top:10px; font-size:12px; padding:5px 12px; border-radius:20px; border:1px solid #2B6CB0; color:#2B6CB0; background:transparent; cursor:pointer; }
+.ef:focus { border-color:#6B46C1; }
+.add-btn { margin-top:10px; font-size:12px; padding:5px 12px; border-radius:20px; border:1px solid #6B46C1; color:#6B46C1; background:transparent; cursor:pointer; }
 .exp-block, .proj-block { background:#f9f8f5; border-radius:8px; padding:12px; margin-bottom:10px; position:relative; }
 .remove-btn { position:absolute; top:8px; right:8px; font-size:11px; color:#BE185D; background:transparent; border:none; cursor:pointer; padding:2px 6px; }
 .toggle-row { display:flex; align-items:center; justify-content:space-between; padding:6px 0; border-bottom:1px solid #f0ede8; }
@@ -679,7 +668,7 @@ a { color: var(--accent); text-decoration: none; }
 .toggle-sw { position:relative; width:36px; height:20px; }
 .toggle-sw input { opacity:0; width:0; height:0; }
 .toggle-sw .slider { position:absolute; inset:0; background:#D3D1C7; border-radius:20px; cursor:pointer; transition:0.2s; }
-.toggle-sw input:checked + .slider { background:#2B6CB0; }
+.toggle-sw input:checked + .slider { background:#6B46C1; }
 .toggle-sw .slider::before { content:""; position:absolute; width:14px; height:14px; left:3px; top:3px; background:#fff; border-radius:50%; transition:0.2s; }
 .toggle-sw input:checked + .slider::before { transform:translateX(16px); }
 .theme-dot { width:28px; height:28px; border-radius:50%; cursor:pointer; border:3px solid transparent; transition:0.15s; }
@@ -701,7 +690,7 @@ a { color: var(--accent); text-decoration: none; }
 var THEMES_LIST = [
   { id:'emerald', color:'#1D9E75', label:'Emerald' },
   { id:'navy',    color:'#1B5FA8', label:'Navy'    },
-  { id:'purple',  color:'#2B6CB0', label:'Purple'  },
+  { id:'purple',  color:'#6B46C1', label:'Purple'  },
   { id:'gold',    color:'#B7791F', label:'Gold'    },
   { id:'rose',    color:'#BE185D', label:'Rose'    },
   { id:'slate',   color:'#475569', label:'Slate'   },
@@ -709,7 +698,7 @@ var THEMES_LIST = [
 var THEMES = {
   emerald: { accent:'#1D9E75', light:'#ECFDF5', dark:'#065F46', mid:'#059669' },
   navy:    { accent:'#1B5FA8', light:'#EFF6FF', dark:'#1E3A5F', mid:'#2563EB' },
-  purple:  { accent:'#2B6CB0', light:'#EBF4FF', dark:'#1A365D', mid:'#4299E1' },
+  purple:  { accent:'#6B46C1', light:'#EDE9FE', dark:'#4C1D95', mid:'#7C3AED' },
   gold:    { accent:'#B7791F', light:'#FFFBEB', dark:'#78350F', mid:'#D97706' },
   rose:    { accent:'#BE185D', light:'#FFF1F2', dark:'#9D174D', mid:'#E11D48' },
   slate:   { accent:'#475569', light:'#F1F5F9', dark:'#1E293B', mid:'#64748B' },
@@ -989,7 +978,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var THEMES = {
     emerald: { accent:'#1D9E75', light:'#ECFDF5', dark:'#065F46', mid:'#059669' },
     navy:    { accent:'#1B5FA8', light:'#EFF6FF', dark:'#1E3A5F', mid:'#2563EB' },
-    purple:  { accent:'#2B6CB0', light:'#EBF4FF', dark:'#1A365D', mid:'#4299E1' },
+    purple:  { accent:'#6B46C1', light:'#EDE9FE', dark:'#4C1D95', mid:'#7C3AED' },
     gold:    { accent:'#B7791F', light:'#FFFBEB', dark:'#78350F', mid:'#D97706' },
     rose:    { accent:'#BE185D', light:'#FFF1F2', dark:'#9D174D', mid:'#E11D48' },
     slate:   { accent:'#475569', light:'#F1F5F9', dark:'#1E293B', mid:'#64748B' },
