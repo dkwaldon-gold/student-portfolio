@@ -795,6 +795,7 @@ async function saveProfile() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         password: CONFIG.password,
+        branch:   CONFIG.github.branch,
         owner: cfg.owner, repo: cfg.repo, path: cfg.path,
         content: btoa(unescape(encodeURIComponent(newHtml))),
         sha: sha
