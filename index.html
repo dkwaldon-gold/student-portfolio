@@ -1043,7 +1043,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Stats
   el('sc-stats').innerHTML =
-    '<div class="ph-stat"><div class="ph-num">' + s.gpa.unweighted + '</div><div class="ph-lbl">GPA</div></div>' +
+    '<div class="ph-stat"><div class="ph-num">' + (s.gpa.unweighted || '--') + '</div><div class="ph-lbl">GPA</div></div>' +
     '<div class="ph-stat"><div class="ph-num">' + s.experience.length + '</div><div class="ph-lbl">Activities</div></div>' +
     '<div class="ph-stat"><div class="ph-num">' + s.projects.length + '</div><div class="ph-lbl">Projects</div></div>';
 
@@ -1053,9 +1053,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // GPA bars
   const gpaRows = el('gpa-rows');
   [
-    { label:'Unweighted', val:s.gpa.unweighted, pct:(s.gpa.unweighted/4.0)*100 },
-    { label:'Weighted',   val:s.gpa.weighted,   pct:Math.min((s.gpa.weighted/5.0)*100,100) }
+    { label:'Unweighted', val:s.gpa.unweighted, pct:s.gpa.unweighted ? (s.gpa.unweighted/4.0)*100 : 0 },
+    { label:'Weighted',   val:s.gpa.weighted,   pct:s.gpa.weighted   ? Math.min((s.gpa.weighted/5.0)*100,100) : 0 }
   ].forEach(function(g) {
+    if (!g.val) return;
     gpaRows.innerHTML += '<div class="gpa-row"><div class="gpa-label">' + g.label + '</div>'
       + '<div class="gpa-bar"><div class="gpa-fill" style="width:' + Math.round(g.pct) + '%"></div></div>'
       + '<div class="gpa-val">' + g.val + '</div></div>';
